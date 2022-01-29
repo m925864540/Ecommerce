@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const env = require("dotenv").config();
-app.use(express.json())
 const routes = require('./routes/index')
 
 const mongoose = require("mongoose"); //Connect to mongo server
@@ -14,7 +13,7 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
+app.use(express.json())
 
 app.use('/', routes)
 

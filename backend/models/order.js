@@ -10,9 +10,9 @@ const OrderScheme = new mongoose.Schema(
                 quantity: {type: Number, default: 1},
             }
         ],
-        total: {type: Number, required: true},
+        amount: {type: Number, required: true},
         address: {type: Object, required: true}, //Stripe will return an object when we make an order.
-        satus: {type: String, default: "Pending"}
+        status: {type: String, default: "Pending"}
     },{timestamps:true} 
 )
 
