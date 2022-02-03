@@ -5,6 +5,7 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
+import { mobileDevice } from "../responsive";
 
 const Container = styled.div``;
 const Wrapper = styled.div``;
@@ -28,15 +29,18 @@ const ContinueShoppingButton = styled.button`
   cursor: pointer;
   background-color: #1a1921;
   color: white;
+  ${mobileDevice({ margin: "10px"})};
 `;
 const MainCart = styled.div`
   display: flex;
+  ${mobileDevice({ flexDirection: "column"})};
 `;
 const LeftCartContainer = styled.div`
   flex: 3;
 `;
 const ProductInfoContainer = styled.div`
   display: flex;
+  ${mobileDevice({ height: "200px"})};
 `;
 const Image = styled.img`
   width: 200px;
@@ -44,6 +48,7 @@ const Image = styled.img`
   max-height: 200px;
   margin: 30px;
   object-fit: scale-down;
+  ${mobileDevice({ maxWidth: "100px", minHeight: "150px", maxHeight: "150px"})};
 `;
 const ProductTexts = styled.div`
   display: flex;
@@ -108,6 +113,7 @@ const RightCartContainer = styled.div`
   height: 600px;
   margin-right: 10px;
   border-radius: 2%;
+  ${mobileDevice({ margin: "20px"})};
 `;
 const OrderInfoContainer = styled.div``;
 const OrderTitle = styled.h1`
@@ -135,6 +141,7 @@ const CheckoutButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  ${mobileDevice({ marginBottom: "10px"})};
 `;
 
 const CheckoutButton = styled.button`
@@ -147,6 +154,12 @@ const CheckoutButton = styled.button`
   color: white;
   font-size: 20px;
   cursor: pointer;
+  transition: all 0.5s ease;
+  border-radius: 20px;
+  &:hover {
+    transform: scale(1.01);
+  }
+  ${mobileDevice({ padding: "10px 100px"})};
 `;
 
 const Hr = styled.hr`

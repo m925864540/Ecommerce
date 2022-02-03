@@ -5,6 +5,7 @@ import Announcement from "./../components/Announcement";
 import Products from "./../components/Products";
 import Newsletter from "./../components/Newsletter";
 import Footer from "./../components/Footer";
+import { mobileDevice } from "../responsive";
 
 const Container = styled.div``;
 const ProductTitle = styled.h1`
@@ -17,10 +18,13 @@ const FilterContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0px 20px;
+  ${mobileDevice({ margin: "0px 5px" })};
 `;
 const Filter = styled.div`
   display: flex;
   align-items: center;
+  ${mobileDevice({ })};
+  
 `;
 const FilterType = styled.span`
   font-size: 20px;

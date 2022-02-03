@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { slideItems } from "../data";
+import { mobileDevice } from "../responsive";
 
 //100vh- full screen slider.
 const Container = styled.div`
@@ -10,6 +11,7 @@ const Container = styled.div`
   display: flex;
   position: relative;
   overflow: hidden;
+  ${mobileDevice({display: "none"})};
 `;
 const Arrow = styled.div`
   width: 35px;

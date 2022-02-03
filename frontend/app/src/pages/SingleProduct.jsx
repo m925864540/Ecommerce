@@ -5,11 +5,13 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
+import { mobileDevice } from "../responsive";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
   display: flex;
   padding: 30px;
+  ${mobileDevice({ padding: "10px", flexDirection: "column" })};
 `;
 const ProductImage = styled.div`
   flex: 1;
@@ -21,6 +23,7 @@ const Image = styled.img`
 `;
 const ProductInfo = styled.div`
   flex: 1;
+
 `;
 const Title = styled.h1`
   font-weight: 400;

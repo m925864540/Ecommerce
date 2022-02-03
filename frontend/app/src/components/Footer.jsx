@@ -9,17 +9,20 @@ import {
   Twitter,
   YouTube,
 } from "@material-ui/icons";
+import { mobileDevice } from "../responsive";
 
 const Container = styled.div`
   display: flex;
-  height: 30vh;
+  height: 300px;
   background-color: black;
+  ${mobileDevice({ height: "auto", flexDirection: "column" })};
 `;
 
 const Left = styled.div`
   padding: 10px;
   display: flex;
   flex: 1;
+  ${mobileDevice({ display: "none" })};
 `;
 const ResourceContainer = styled.div`
   display: flex;
@@ -68,12 +71,14 @@ const Title = styled.h1`
   color: rgba(255, 255, 255, 0.8);
   font-size: ${(props) => props.fontSize}px;
   justify-content: center;
+  ${mobileDevice({ paddingTop: "15px" })};
 `;
 const Description = styled.p`
   color: rgba(255, 255, 255, 0.6);
   height: 40%;
   display: flex;
   margin-top: 10px;
+  ${mobileDevice({ textAlign: "center" })};
 `;
 const SocialMediaIcon = styled.div`
   display: flex;
@@ -114,7 +119,6 @@ const Contact = styled.div`
   margin-bottom: 10px;
   align-items: center;
 `;
-
 
 const Footer = () => {
   return (
@@ -162,13 +166,14 @@ const Footer = () => {
         <Title>Contact Us</Title>
         <ContactContainer>
           <Contact>
-            <Room style={{marginRight: "10px"}}/> 479 Jast Springs, Spencertown Bilzen 68160
+            <Room style={{ marginRight: "10px" }} /> 479 Jast Springs,
+            Spencertown Bilzen 68160
           </Contact>
           <Contact>
-            <ContactPhone style={{marginRight: "10px"}}/> (629) 586-4191
+            <ContactPhone style={{ marginRight: "10px" }} /> (629) 586-4191
           </Contact>
           <Contact>
-            <EmailOutlined style={{marginRight: "10px"}}/> Mike@Gmail.com
+            <EmailOutlined style={{ marginRight: "10px" }} /> Mike@Gmail.com
           </Contact>
         </ContactContainer>
       </Right>
