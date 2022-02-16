@@ -26,17 +26,20 @@ export const category = [
     {
       id: 1,
       img: "https://www.80scasualclassics.co.uk/images/patagonia-organic-cotton-pocket-t-shirt-stone-blue-p15998-87609_image.jpg",
-      title: "SHIRT"
+      title: "SHIRT",
+      category: "man"
     },
     {
       id: 2,
       img: "https://i5.walmartimages.com/asr/07f8d5ee-4e69-4ab9-85be-be327f78bc22.50aac9610e96529e30934d33fe1cc524.jpeg",
-      title: "LONGSLEEVE"
+      title: "LONGSLEEVE",
+      category: "women"
     },
     {
       id: 3,
       img: "https://www.surfstitch.com/on/demandware.static/-/Sites-ss-master-catalog/default/dw6dbe422c/images/15026-00271KHAKI/KHAKI-MENS-CLOTHING-HERSCHEL-SUPPLY-CO-JACKETS-15026-00271KHAKI_2.JPG",
-      title: "JACKET"
+      title: "JACKET",
+      category: "skirt"
     }
   ];
   

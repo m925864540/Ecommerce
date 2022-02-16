@@ -53,8 +53,9 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 
 /**
  * Get an product by ID
+ * verifyTokenAndAdmin removed to access from frontend, might need to add later.
  */
-router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     return res.status(200).json(product);
@@ -66,7 +67,7 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
 /**
  * Get all products.
  */
-router.get("/find", verifyTokenAndAdmin, async (req, res) => {
+router.get("/", async (req, res) => {
   //req.query.'new' correspond to the name of the query in postman params. Ex: new=true
   const qNew = req.query.new;
   const qCategory = req.query.category;
@@ -74,6 +75,7 @@ router.get("/find", verifyTokenAndAdmin, async (req, res) => {
   try {
     let product;
     if (qNew) {
+      //Products is sorted by newest creation.
       products = await Product.find().sort({ _id: -1 }).limit(3);
     } else if (qCategory) {
       products = await Product.find({

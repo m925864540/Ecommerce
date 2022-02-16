@@ -6,6 +6,8 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobileDevice } from "../responsive";
+import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
 
 const Container = styled.div``;
 const Wrapper = styled.div``;
@@ -29,18 +31,18 @@ const ContinueShoppingButton = styled.button`
   cursor: pointer;
   background-color: #1a1921;
   color: white;
-  ${mobileDevice({ margin: "10px"})};
+  ${mobileDevice({ margin: "10px" })};
 `;
 const MainCart = styled.div`
   display: flex;
-  ${mobileDevice({ flexDirection: "column"})};
+  ${mobileDevice({ flexDirection: "column" })};
 `;
 const LeftCartContainer = styled.div`
   flex: 3;
 `;
 const ProductInfoContainer = styled.div`
   display: flex;
-  ${mobileDevice({ height: "200px"})};
+  ${mobileDevice({ height: "200px" })};
 `;
 const Image = styled.img`
   width: 200px;
@@ -48,7 +50,11 @@ const Image = styled.img`
   max-height: 200px;
   margin: 30px;
   object-fit: scale-down;
-  ${mobileDevice({ maxWidth: "100px", minHeight: "150px", maxHeight: "150px"})};
+  ${mobileDevice({
+    maxWidth: "100px",
+    minHeight: "150px",
+    maxHeight: "150px",
+  })};
 `;
 const ProductTexts = styled.div`
   display: flex;
@@ -62,8 +68,20 @@ const ProductName = styled.span`
 const ProductId = styled.span`
   margin: 5px 20px;
 `;
+const ColorContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const ProductColor = styled.div`
-  margin: 5px 20px;
+  margin: 5px 5px 5px 20px;
+`;
+
+const Color = styled.div`
+  height: 25px;
+  width: 25px;
+  background-color: ${(props) => props.color};
+  margin-right: 5px;
+  border-radius: 30%;
 `;
 const ProductSize = styled.span`
   margin: 5px 20px;
@@ -113,7 +131,7 @@ const RightCartContainer = styled.div`
   height: 600px;
   margin-right: 10px;
   border-radius: 2%;
-  ${mobileDevice({ margin: "20px"})};
+  ${mobileDevice({ margin: "20px" })};
 `;
 const OrderInfoContainer = styled.div``;
 const OrderTitle = styled.h1`
@@ -141,7 +159,7 @@ const CheckoutButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  ${mobileDevice({ marginBottom: "10px"})};
+  ${mobileDevice({ marginBottom: "10px" })};
 `;
 
 const CheckoutButton = styled.button`
@@ -159,7 +177,7 @@ const CheckoutButton = styled.button`
   &:hover {
     transform: scale(1.01);
   }
-  ${mobileDevice({ padding: "10px 100px"})};
+  ${mobileDevice({ padding: "10px 100px" })};
 `;
 
 const Hr = styled.hr`
@@ -169,6 +187,10 @@ const Hr = styled.hr`
   margin: 0px 10px;
 `;
 const ShoppingCart = () => {
+  //All prduct user added to cart.
+  const product = useSelector((state) => state.cart);
+  const stripePKey= process.env.STRIPE_PKEY
+  console.log("Stripe key is:",stripePKey)
   return (
     <Container>
       <Navbar />
@@ -184,125 +206,35 @@ const ShoppingCart = () => {
         <MainCart>
           <LeftCartContainer>
             <Hr />
-            <ProductInfoContainer>
-              <Image src="https://dresscodeimages.blob.core.windows.net/originals/605125.jpg" />
-              <ProductTexts>
-                <ProductName>
-                  <b>Vans Shoe</b>
-                </ProductName>
-                <ProductId>
-                  <b>ID: </b>123456
-                </ProductId>
-                <ProductColor>
-                  <b>Color: </b>Black
-                </ProductColor>
-                <ProductSize>
-                  <b>Size: </b>M
-                </ProductSize>
-              </ProductTexts>
-              <ProductTexts2>
-                <ProductCountContainer>
-                  <Button>
-                    <Add />
-                  </Button>
-                  <ProductCount>1</ProductCount>
-                  <Button>
-                    <Remove />
-                  </Button>
-                </ProductCountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </ProductTexts2>
-            </ProductInfoContainer>
+            {product.products.map((item) => (
+              <ProductInfoContainer>
+                <Image src={item.image} />
+                <ProductTexts>
+                  <ProductName>
+                    <b>{item.title}</b>
+                  </ProductName>
+                  <ProductId>ID: {item._id}</ProductId>
+                  <ColorContainer>
+                    <ProductColor>Color:</ProductColor>
+                    <Color color={item.color} />
+                  </ColorContainer>
+                  <ProductSize>Size: {item.size}</ProductSize>
+                </ProductTexts>
+                <ProductTexts2>
+                  <ProductCountContainer>
+                    <Button>
+                      <Remove />
+                    </Button>
+                    <ProductCount>{item.itemCount}</ProductCount>
+                    <Button>
+                      <Add />
+                    </Button>
+                  </ProductCountContainer>
+                  <ProductPrice>$ {item.price * item.itemCount}</ProductPrice>
+                </ProductTexts2>
+              </ProductInfoContainer>
+            ))}
             <Hr />
-            <ProductInfoContainer>
-              <Image src="https://www.bhphotovideo.com/images/images2500x2500/samsonite_89576_5794_modern_utility_mini_backpack_1426828.jpg" />
-              <ProductTexts>
-                <ProductName>
-                  <b>Backpack</b>
-                </ProductName>
-                <ProductId>
-                  <b>ID: </b>112233
-                </ProductId>
-                <ProductColor>
-                  <b>Color: </b>Black
-                </ProductColor>
-                <ProductSize>
-                  <b>Size: </b>L
-                </ProductSize>
-              </ProductTexts>
-              <ProductTexts2>
-                <ProductCountContainer>
-                  <Button>
-                    <Add />
-                  </Button>
-                  <ProductCount>2</ProductCount>
-                  <Button>
-                    <Remove />
-                  </Button>
-                </ProductCountContainer>
-                <ProductPrice>$ 84.99</ProductPrice>
-              </ProductTexts2>
-            </ProductInfoContainer>
-            <Hr />
-            <ProductInfoContainer>
-              <Image src="https://www.80scasualclassics.co.uk/images/lacoste-t-shirt-vivid-blue-p15158-87952_image.jpg" />
-              <ProductTexts>
-                <ProductName>
-                  <b>White T-shirt</b>
-                </ProductName>
-                <ProductId>
-                  <b>ID: </b>011333
-                </ProductId>
-                <ProductColor>
-                  <b>Color: </b>Blue
-                </ProductColor>
-                <ProductSize>
-                  <b>Size: </b>S
-                </ProductSize>
-              </ProductTexts>
-              <ProductTexts2>
-                <ProductCountContainer>
-                  <Button>
-                    <Add />
-                  </Button>
-                  <ProductCount>1</ProductCount>
-                  <Button>
-                    <Remove />
-                  </Button>
-                </ProductCountContainer>
-                <ProductPrice>$ 6.99</ProductPrice>
-              </ProductTexts2>
-            </ProductInfoContainer>
-            <Hr />
-            <ProductInfoContainer>
-              <Image src="https://media.aws.alkosto.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/1/9/193905408696-1.jpg" />
-              <ProductTexts>
-                <ProductName>
-                  <b>HP Mouse</b>
-                </ProductName>
-                <ProductId>
-                  <b>ID: </b>338990
-                </ProductId>
-                <ProductColor>
-                  <b>Color: </b>Black
-                </ProductColor>
-                <ProductSize>
-                  <b>Size: </b>M
-                </ProductSize>
-              </ProductTexts>
-              <ProductTexts2>
-                <ProductCountContainer>
-                  <Button>
-                    <Add />
-                  </Button>
-                  <ProductCount>1</ProductCount>
-                  <Button>
-                    <Remove />
-                  </Button>
-                </ProductCountContainer>
-                <ProductPrice>$ 37.49</ProductPrice>
-              </ProductTexts2>
-            </ProductInfoContainer>
           </LeftCartContainer>
           <RightCartContainer>
             <OrderInfoContainer>
@@ -310,7 +242,7 @@ const ShoppingCart = () => {
               <OrderSummaryContainer>
                 <Summary>
                   <SummaryText>Subtotal:</SummaryText>
-                  <SummaryPrice>$ 50</SummaryPrice>
+                  <SummaryPrice>$ {(product.totalPrice).toFixed(2)}</SummaryPrice>
                 </Summary>
                 <Summary>
                   <SummaryText>Estimated Shipping:</SummaryText>
@@ -326,12 +258,11 @@ const ShoppingCart = () => {
                 </Summary>
                 <Summary>
                   <SummaryText total="total">Total</SummaryText>
-                  <SummaryPrice total="total"> $ 53.27</SummaryPrice>
+                  <SummaryPrice total="total"> $ {(product.totalPrice).toFixed(2)}</SummaryPrice>
                 </Summary>
-                
               </OrderSummaryContainer>
               <CheckoutButtonContainer>
-              <CheckoutButton>CHECKOUT</CheckoutButton>
+                <CheckoutButton>CHECKOUT</CheckoutButton>
               </CheckoutButtonContainer>
             </OrderInfoContainer>
           </RightCartContainer>

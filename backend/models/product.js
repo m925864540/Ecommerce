@@ -6,10 +6,11 @@ const ProductScheme = new mongoose.Schema(
         title:{type: String, required: true, unique: true},
         description: {type: String, required: true},
         image: {type: String, required: true,},
-        category:{type: Array},    //product can have more than 1 cate.
-        size:{type: String},
-        color:{type: String},
+        category:{type: Array},    //product can have more than 1 cate, size, and color.
+        size:{type: Array},
+        color:{type: Array},
         price:{type: Number, default: false},
+        inStock:{type: Boolean, default: true}
     },{timestamps:true} //Mongo provides create and update at times.
 )
 

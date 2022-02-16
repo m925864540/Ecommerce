@@ -1,22 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import {Search } from "@material-ui/icons";
-import IconButton from "@material-ui/core/IconButton";
+import { Search } from "@material-ui/icons";
+//import IconButton from "@material-ui/core/IconButton";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Badge } from "@material-ui/core";
-import {mobileDevice} from '../responsive';
+import { mobileDevice } from "../responsive";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 60px;
   background-color: LightGray;
-  ${mobileDevice({height:"50px"})}
+  ${mobileDevice({ height: "50px" })}
 `;
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  ${mobileDevice({padding:"10px 0px"})};
+  ${mobileDevice({ padding: "10px 0px" })};
 `;
 const Left = styled.div`
   display: flex;
@@ -25,7 +27,7 @@ const Left = styled.div`
 `;
 const Language = styled.span`
   cursor: pointer;
-  ${mobileDevice({display: "none"})};
+  ${mobileDevice({ display: "none" })};
 `;
 const SearchContainer = styled.div`
   border: 1px solid black;
@@ -33,13 +35,12 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-left: 25px;
   padding: 2px;
-
 `;
 const Input = styled.input`
   border: none;
   outline: none;
   background-color: LightGray;
-  ${mobileDevice({width: "45px"})};
+  ${mobileDevice({ width: "45px" })};
 `;
 
 const Center = styled.div`
@@ -48,7 +49,7 @@ const Center = styled.div`
 `;
 const Logo = styled.h1`
   font-weight: bold;
-  ${mobileDevice({fontSize: "20px"})};
+  ${mobileDevice({ fontSize: "20px" })};
 `;
 
 const Right = styled.div`
@@ -63,31 +64,37 @@ const MenuItem = styled.div`
   margin-left: 20px;
   display: flex;
   align-items: center;
-  ${mobileDevice({marginLeft: "none", paddingRight: "1px"})};
-  
+  ${mobileDevice({ marginLeft: "none", paddingRight: "1px" })};
 `;
 const Navbar = () => {
+  //On navbar, only shows quantity on cart.
+  const cartQuantity = useSelector((state) => state.cart.quantity);
+
   return (
     <Container>
       <Wrapper>
         <Left>
-          <Language>EN</Language>
+          {/* <Language>EN</Language> */}
           <SearchContainer>
-            <Input placeholder="Search"/>
-            <Search style={{color:"gray"}}/>
+            <Input placeholder="Search" />
+            <Search style={{ color: "gray" }} />
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>Logo</Logo>
+          <Link key='toHome' to={"/"} >
+            <Logo>Logo</Logo>
+          </Link>
         </Center>
         <Right>
           <MenuItem>Register</MenuItem>
           <MenuItem>Sign In</MenuItem>
-          <MenuItem>
-            {/* <Badge badgeContent={4} color="primary"> */}
-              <ShoppingCartIcon />
-            {/* </Badge> */}
-          </MenuItem>
+          <Link key="toCart" to={"/cart"}>
+            <MenuItem>
+              <Badge badgeContent={cartQuantity} color="primary">
+                <ShoppingCartIcon />
+              </Badge>
+            </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>

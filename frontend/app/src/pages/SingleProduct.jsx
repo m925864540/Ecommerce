@@ -1,11 +1,15 @@
 import { Add, AddShoppingCart, Remove } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobileDevice } from "../responsive";
+import { useLocation } from 'react-router-dom';
+import axios from "axios";
+import { addProduct } from "../redux/shoppingCart";
+import {useDispatch} from 'react-redux'
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -18,7 +22,7 @@ const ProductImage = styled.div`
 `;
 const Image = styled.img`
   width: 100%;
-  height: 70vh;
+  height: 500px;
   object-fit: scale-down;
 `;
 const ProductInfo = styled.div`
@@ -46,7 +50,7 @@ const ColorText = styled.h3`
 const Color = styled.div`
   height: 25px;
   width: 25px;
-  background-color: #${(props) => props.color};
+  background-color: ${(props) => props.color};
   margin-right: 5px;
   border-radius: 30%;
   cursor: pointer;
@@ -79,6 +83,7 @@ const ButtonContainer = styled.div`
   flex: 6;
   display: flex;
   margin-top: 20px;
+  margin-left: 5px;
   align-items: center;
 `;
 const Button = styled.button`
@@ -119,57 +124,92 @@ const AddToCartButton= styled.button`
 
 
 const SingleProduct = () => {
+
+  const location = useLocation();
+  const productID = location.pathname.split("/")[2]; //Takes the product ID.
+
+  const [product, setProduct] = useState({});
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [itemCount, setItemCount]= useState(1);
+  const dispatch= useDispatch();
+
+  useEffect(()=>{
+    const getProduct = async ()=>{
+
+      try{
+        const res = await axios.get(`http://localhost:8080/api/product/${productID}`)
+        setProduct(res.data);
+      }catch(e){
+        console.log("Single Product Error: ", e)
+      }
+    }
+    getProduct();
+
+  },[productID])
+
+  const handleItemCount = (e)=>{
+    if(e==="remove"){
+      if(itemCount===1){
+        return;
+        // setItemCount(0);
+      }else{
+        setItemCount(itemCount-1);
+      }
+    }else{
+      setItemCount(itemCount+1);
+    }
+  }
+
+  const hanldeAddToCart =()=>{
+    dispatch(addProduct({...product, itemCount, color, size}));
+  }
+
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ProductImage>
-          <Image src="https://jannjune.com/wp-content/uploads/2018/11/BOY-T-Shirt-white.jpeg" />
+          <Image src={product.image} />
         </ProductImage>
         <ProductInfo>
-          <Title>White T-shirt</Title>
-          <Description>
-            A true workhorse of a shirt, this is the perfect choice for the man
-            who's on the go. Made from 100% cotton, this shirt is durable and
-            easy to care for. The sleek, classic design is perfect for any
-            occasion, and the soft, comfortable fabric will keep you feeling
-            fresh all day long. Whether you're wearing it with a suit or jeans,
-            this shirt will go with anything.
-          </Description>
-          <Price>$ 6.99</Price>
-          <ColorContainer>
+          <Title>{product.title}</Title>
+          <Description>{product.description}</Description>
+          <Price>$ {product.price}</Price>
+          <ColorContainer name="color">
             <ColorText>Color:</ColorText>
-            <Color color="ff0000"></Color>
-            <Color color="00FF00"></Color>
-            <Color color="0000ff"></Color>
+            {product.color?.map((color)=>(
+              <Color color={color} key={color} onClick={()=>setColor(color)} />
+            ))}
           </ColorContainer>
+
           <SizeAndItemWrapper>
             <SizeContainer>
               <SizeText>Size:</SizeText>
-              <SizeSelect>
+              <SizeSelect name="size" onChange={(e)=>{setSize(e.target.value)}} >
                 <SizeOption disabled selected>
                   Size
                 </SizeOption>
-                <SizeOption>XS</SizeOption>
-                <SizeOption>S</SizeOption>
-                <SizeOption>M</SizeOption>
-                <SizeOption>L</SizeOption>
-                <SizeOption>XL</SizeOption>
+                {product.size?.map((size)=>(
+                  <SizeOption key={size}>{size}</SizeOption>
+                ))}
               </SizeSelect>
             </SizeContainer>
+
             <ButtonContainer>
               <Button>
-                <Remove />
+                <Remove onClick={()=>handleItemCount("remove")}/>
               </Button>
-              <ItemCount>1</ItemCount>
+              <ItemCount>{itemCount}</ItemCount>
               <Button>
-                <Add />
+                <Add onClick={()=>handleItemCount("add")}/>
               </Button>
             </ButtonContainer>
           </SizeAndItemWrapper>
-          <AddToCartButton>
-            <AddShoppingCart/>
+
+          <AddToCartButton  onClick={hanldeAddToCart}>
+            <AddShoppingCart />
           </AddToCartButton>
         </ProductInfo>
       </Wrapper>
