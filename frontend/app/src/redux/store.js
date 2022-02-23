@@ -2,14 +2,42 @@
  * Global store avaiable to be used in every page.
  */
 
-import {configureStore } from "@reduxjs/toolkit"
+import {configureStore, combineReducers} from "@reduxjs/toolkit"
 import shoppingCartReducer from "./shoppingCart"
+import userReducer from './user'
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+  } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
+const persistConfig = {
+    key: 'root',
+    version: 1,
+    storage,
+}  
+
+//Use combineReducer to persist both user and shopping cart.
+const rootReducer= combineReducers({user: userReducer, cart: shoppingCartReducer})
+//Reducer we want to persist.
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 //Wrap app with <Provider> to be able to use store.
-const store = configureStore({
-    reducer:{
-        cart: shoppingCartReducer
-    }
+export const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 })
 
-export default store;
+export let persistor = persistStore(store);
+// export default store;

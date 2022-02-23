@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "dotenv": "^16.0.0",
-    "multer": "^1.4.4"
-  },
-  "devDependencies": {
-    "dotenv-webpack": "^7.1.0"
-  }
-}

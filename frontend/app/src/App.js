@@ -8,9 +8,13 @@ import ShoppingCart from "./pages/ShoppingCart";
 //import Checkout from "./payment/Checkout";
 //import Success from "./payment/Success";
 import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import Success from './pages/Success'
+import { useSelector } from "react-redux";
 
 function App() {
-  const user = true;
+  const {currentUser} = useSelector((state)=>state.user);
+  console.log("Inside App: ", currentUser);
+
   return (
     <Router>
       <Routes>
@@ -18,8 +22,9 @@ function App() {
         <Route path="/products/:category" element={<Productlist />} />
         <Route path="/product/:id" element={<SingleProduct />} />
         <Route path="/cart" element={<ShoppingCart />} />
-        <Route path="/login" element= {user ? <Navigate to="/" /> :<Login />}/>
-        <Route path="/register" element= {user ? <Navigate to="/" /> :<Register />} />
+        <Route path="/payment/success" element={<Success />}/>
+        <Route path="/login" element= {currentUser ? <Navigate to="/" /> :<Login />}/>
+        <Route path="/register" element= {currentUser ? <Navigate to="/" /> :<Register />} />
       </Routes>
     </Router>
   );

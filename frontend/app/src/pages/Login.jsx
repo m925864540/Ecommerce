@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { loginFunc } from "../redux/user";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 //background: url("https://cdn.hipwallpaper.com/i/71/44/sLrHqS.jpg");
 const Container = styled.div`
@@ -65,17 +69,33 @@ const Link = styled.a`
     text-decoration: underline;
     cursor: pointer;
 `;
-
+const Errors = styled.span`
+  color: red;
+  padding-top: 5px;
+`
 export const Login = () => {
+  const [username, setUsername]= useState("");
+  const [password, setPassword]= useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const fail = useSelector((state)=>state.user.fail);
+
+  //Call to user redux to login an user.
+  const handleLogin= (e)=>{
+    e.preventDefault();
+    loginFunc(dispatch, navigate, {username, password})
+  }
+
   return (
     <Container>
       <Wrapper>
         <Title>Sign In</Title>
         <Form>
-          <Input placeholder="Username"></Input>
-          <Input placeholder="Password"></Input>
-          <Button>Sign In</Button>
+          <Input placeholder="Username" onChange={e=> setUsername(e.target.value)}></Input>
+          <Input type="password" placeholder="Password" onChange={e=> setPassword(e.target.value)}></Input>
+          <Button onClick={handleLogin}>Sign In</Button>
         </Form>
+        {fail && <Errors>Something went wrong.</Errors>}
         <LinkContainer>
           <Link>Forgot Password?</Link>
           <Link>Sign Up</Link>

@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
  */
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
+  
   if (!username) {
     return res.status(400).json("Enter an username");
   }
@@ -56,7 +57,7 @@ router.post("/login", async (req, res) => {
 
     //Check if user with this email exist in db.
     if (!user) {
-      return res.status(400).json("Invalid username or password."); //no user with such email exist
+      return res.status(401).json("Invalid username or password."); //no user with such email exist
     }
     const hashedPassword = CryptoJS.AES.decrypt(
       //Decrypt user password
@@ -66,7 +67,7 @@ router.post("/login", async (req, res) => {
     const passwordToString = hashedPassword.toString(CryptoJS.enc.Utf8); //turn password to String.
 
     if (passwordToString != password) {
-      return res.status(400).json("Invalid username or password."); //password does not match.
+      return res.status(401).json("Invalid username or password."); //password does not match.
     }
 
     // username and password both matched, create jwt for user.

@@ -69,6 +69,8 @@ const MenuItem = styled.div`
 const Navbar = () => {
   //On navbar, only shows quantity on cart.
   const cartQuantity = useSelector((state) => state.cart.quantity);
+  const { currentUser } = useSelector((state) => state.user);
+  console.log("Inside Navbar: ", currentUser);
 
   return (
     <Container>
@@ -81,13 +83,21 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Link key='toHome' to={"/"} >
+          <Link key="toHome" to={"/"}>
             <Logo>Logo</Logo>
           </Link>
         </Center>
         <Right>
-          <MenuItem>Register</MenuItem>
-          <MenuItem>Sign In</MenuItem>
+        {currentUser ? <MenuItem>{currentUser.username}</MenuItem> :
+        <Right>
+          <Link key="toRegister" to={"/register"}>
+            <MenuItem>Register</MenuItem>
+          </Link>
+          <Link key="toLogin" to={"/login"}>
+            <MenuItem>Sign In</MenuItem>
+          </Link>
+          </Right>
+        }
           <Link key="toCart" to={"/cart"}>
             <MenuItem>
               <Badge badgeContent={cartQuantity} color="primary">

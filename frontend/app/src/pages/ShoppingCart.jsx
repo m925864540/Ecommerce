@@ -1,5 +1,5 @@
 import { Add, Remove } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -8,6 +8,9 @@ import Newsletter from "../components/Newsletter";
 import { mobileDevice } from "../responsive";
 import { useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
+import axios from "axios";
+import { useNavigate } from "react-router";
+// import { useHistory } from "react-router-dom";
 
 const Container = styled.div``;
 const Wrapper = styled.div``;
@@ -189,8 +192,42 @@ const Hr = styled.hr`
 const ShoppingCart = () => {
   //All prduct user added to cart.
   const product = useSelector((state) => state.cart);
-  const stripePKey= process.env.STRIPE_PKEY
-  console.log("Stripe key is:",stripePKey)
+
+  const stripePKey = process.env.REACT_APP_STRIPE_PKEY;
+  const [stripeToken, setStipeToken] = useState(null);
+  const navigate = useNavigate();
+  // const history = useHistory();
+
+  const onToken = (token) => {
+    setStipeToken(token);
+  };
+  // console.log("Stripe token is: ", stripeToken)
+
+  //Call to payment route when the payment is made by client.
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        //Send to server, and the stripe.charges at server will return us with stripeRes.
+        //res therefore equals stripeRes in server.
+        //res will contain all the info we need, such as id, address.
+        const res = await axios.post(
+          "http://localhost:8080/api/checkout/payment",
+          {
+            tokenId: stripeToken.id,
+            amount: product.totalPrice * 100,
+          }
+        );
+        //console.log("res.data is:",res.data);
+        navigate("/payment/success", {
+          state: { stripeData: res.data, allProducts: product }, //All user added product send.
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken]);
+
   return (
     <Container>
       <Navbar />
@@ -242,7 +279,7 @@ const ShoppingCart = () => {
               <OrderSummaryContainer>
                 <Summary>
                   <SummaryText>Subtotal:</SummaryText>
-                  <SummaryPrice>$ {(product.totalPrice).toFixed(2)}</SummaryPrice>
+                  <SummaryPrice>$ {product.totalPrice.toFixed(2)}</SummaryPrice>
                 </Summary>
                 <Summary>
                   <SummaryText>Estimated Shipping:</SummaryText>
@@ -258,11 +295,24 @@ const ShoppingCart = () => {
                 </Summary>
                 <Summary>
                   <SummaryText total="total">Total</SummaryText>
-                  <SummaryPrice total="total"> $ {(product.totalPrice).toFixed(2)}</SummaryPrice>
+                  <SummaryPrice total="total">
+                    {" "}
+                    $ {product.totalPrice.toFixed(2)}
+                  </SummaryPrice>
                 </Summary>
               </OrderSummaryContainer>
               <CheckoutButtonContainer>
-                <CheckoutButton>CHECKOUT</CheckoutButton>
+                <StripeCheckout
+                  name="store"
+                  description="Test checkout"
+                  billingAddress
+                  shippingAddress
+                  amount={product.totalPrice * 100}
+                  token={onToken}
+                  stripeKey={stripePKey}
+                >
+                  <CheckoutButton>CHECKOUT</CheckoutButton>
+                </StripeCheckout>
               </CheckoutButtonContainer>
             </OrderInfoContainer>
           </RightCartContainer>

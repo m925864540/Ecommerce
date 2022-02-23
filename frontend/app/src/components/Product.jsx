@@ -2,18 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 
 const Info = styled.div`
-  left: 0;
-  top: 0;
+  ${'' /* left: 0;
+  top: 0; */}
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 3;
   background-color: rgba(0, 0, 0, 0.2);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  ${'' /* flex-direction: column; */}
   opacity: 0;
   transition: all 0.5s ease;
 `;
@@ -40,8 +43,6 @@ const Icon = styled.div`
   width: 25px;
   height: 25px;
   padding: 10px;
-  margin-top: 10px;
-  margin-left: 5px;
   border-radius: 60%;
   background-color: white;
   cursor: pointer;
@@ -58,22 +59,23 @@ const Icon = styled.div`
 */
 const Product = ({ item }) => {
   return (
-    <Link item={item} to={`/product/${item._id}`}>
-      <Container>
-        <Image src={item.image} />
+    // <Link item={item} to={`/product/${item._id}`}>
+    <Container>
+      <Image src={item.image} />
 
-        <Info>
-          <Link to={`/cart`}>      
-            <Icon>
-              <ShoppingCartOutlinedIcon />
-            </Icon>
+      <Info>
+        <Icon>
+          <Link item={item} to={`/product/${item._id}`}>
+            <SearchIcon />
           </Link>
-          <Icon>
+        </Icon>
+
+        {/* <Icon>
             <FavoriteBorderOutlinedIcon />
-          </Icon>
-        </Info>
-      </Container>
-    </Link>
+          </Icon> */}
+      </Info>
+    </Container>
+    // </Link>
   );
 };
 
