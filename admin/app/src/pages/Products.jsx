@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
-import { rows } from "../chartData.js";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { Link } from "react-router-dom";
+import { productRows } from "../chartData.js";
 
-const ButtonIconContainer = styled.div`
+const Container = styled.div``;
+const SideBySide = styled.div`
   display: flex;
 `;
-const ButtonIcon = styled.div`
-  cursor: pointer;
-  margin: 5px;
-  &:hover {
-    transform: scale(1.1);
-  }
+const Wrapper = styled.div`
+  width: 85vw;
+`;
+const UserTopContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-item: center;
+  justify-content: space-between;
+  align-items: center;
 `;
 const Title = styled.h1`
   color: #252525;
@@ -40,6 +39,19 @@ const CreateButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+const ButtonIconContainer = styled.div`
+  display: flex;
+`;
+const ButtonIcon = styled.div`
+  cursor: pointer;
+  margin: 5px;
+  &:hover {
+    transform: scale(1.1);
+  }
+  display: flex;
+  justify-content: center;
+  align-item: center;
+`;
 const DashBoardTitle = styled.h1`
   /* Created with https://www.css-gradient.com */
   background: #ffffff;
@@ -48,28 +60,32 @@ const DashBoardTitle = styled.h1`
   background: radial-gradient(ellipse at center, #ffffff, #d8d8d8);
   width: inherit;
   padding: 10px 0px 10px 20px;
-  font-size: 20;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const User = () => {
+const Products = () => {
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
-      field: "Username",
-      headerName: "User",
+      field: "Product",
+      headerName: "Product",
       width: 150,
     },
     {
-      field: "Email",
+      field: "Stock",
       headerName: "Email",
       width: 150,
     },
     {
       field: "Status",
       headerName: "Status",
+      width: 150,
+    },
+    {
+      field: "Price",
+      headerName: "Price",
       width: 150,
     },
     {
@@ -81,7 +97,7 @@ const User = () => {
           <ButtonIconContainer>
             <Link
               style={{ textDecoration: "none" }}
-              to={"/user/" + params.row.id}
+              to={"/product/" + params.row.id}
             >
               <ButtonIcon>
                 <EditIcon />
@@ -96,34 +112,35 @@ const User = () => {
     },
   ];
 
-  const [data, setData] = useState(rows);
+  const [data, setData] = useState(productRows);
   const handleRemove = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
 
   return (
-    <div>
+    <Container>
       <Navbar />
-      <div style={{ display: "flex" }}>
+      <SideBySide>
         <Sidebar />
-        <div style={{ width: "85vw"}}>
+        <Wrapper>
           <DashBoardTitle>
-            <Title>User List</Title>
-            <Link to="/newUser" style={{ textDecoration: "none" }}>
-              <CreateButton>Create User</CreateButton>
+            <Title>Product List</Title>
+            <Link to="/newProduct" style={{ textDecoration: "none" }}>
+              <CreateButton>Create Product</CreateButton>
             </Link>
           </DashBoardTitle>
           <DataGrid
             rows={data}
             columns={columns}
+            // rowsPerPageOptions={5}
             pageSize={8}
             checkboxSelection
             disableSelectionOnClick
           />
-        </div>
-      </div>
-    </div>
+        </Wrapper>
+      </SideBySide>
+    </Container>
   );
 };
 
-export default User;
+export default Products;

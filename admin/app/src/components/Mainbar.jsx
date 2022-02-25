@@ -6,7 +6,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import LabelIcon from "@material-ui/icons/Label";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import Chart from "./Chart";
-import {data} from '../chartData.js';
+import { data } from "../chartData.js";
 
 const Container = styled.div`
   display: flex;
@@ -14,8 +14,20 @@ const Container = styled.div`
 `;
 const Main = styled.div`
   display: flex;
-  width: 85vw;
+  width: 86vw;
   justify-content: space-evenly;
+`;
+const DashBoardTitle = styled.h1`
+  /* Created with https://www.css-gradient.com */
+  background: #ffffff;
+  background: -webkit-radial-gradient(center, #ffffff, #d8d8d8);
+  background: -moz-radial-gradient(center, #ffffff, #d8d8d8);
+  background: radial-gradient(ellipse at center, #ffffff, #d8d8d8);
+  width: inherit;
+  padding: 14px 0px 14px 20px;
+  font-size: 20px;
+  color: #252525;
+  font-weight: 500;
 `;
 const InfoWrapper = styled.div`
   display: flex;
@@ -66,6 +78,7 @@ const Text = styled.p`
 const Mainbar = () => {
   return (
     <Container>
+      <DashBoardTitle>Admin Dashboard</DashBoardTitle>
       <Main>
         <InfoWrapper>
           <InfoContainer>

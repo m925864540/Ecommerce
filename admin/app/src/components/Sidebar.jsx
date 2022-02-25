@@ -12,9 +12,9 @@ const Container = styled.div`
   display: flex;
 `;
 const Side = styled.div`
-  background-color: #e3e3e3;
-  ${'' /* width: 15vw; */}
-  width: 200px;
+  background-color: #F3F3F3;
+  width: 13vw;
+  ${'' /* width: 200px; */}
   height: 100vh;
 `;
 const SideWrapper = styled.div`
@@ -72,28 +72,34 @@ const Sidebar = () => {
                 Dashboard
               </MenuItem>
             </Link>
+            <Link to={"/analyst"} style={{ textDecoration: "none" }}>
             <MenuItem id={1}>
               <ShowChartIcon
                 style={{ marginRight: "10px", fontSize: "14px" }}
               />
               Analyst
             </MenuItem>
+            </Link>
             <Link to={"/user"} style={{ textDecoration: "none" }}>
               <MenuItem path>
                 <PersonIcon style={{ marginRight: "10px", fontSize: "14px" }} />
                 Users
               </MenuItem>
             </Link>
-            <MenuItem>
-              <LabelIcon style={{ marginRight: "10px", fontSize: "14px" }} />
-              Products
-            </MenuItem>
-            <MenuItem>
-              <AttachMoneyIcon
-                style={{ marginRight: "10px", fontSize: "14px" }}
-              />
-              Sales
-            </MenuItem>
+            <Link to={"/products"} style={{ textDecoration: "none" }}>
+              <MenuItem>
+                <LabelIcon style={{ marginRight: "10px", fontSize: "14px" }} />
+                Products
+              </MenuItem>
+            </Link>
+            <Link to={"/sales"} style={{ textDecoration: "none" }}>
+              <MenuItem>
+                <AttachMoneyIcon
+                  style={{ marginRight: "10px", fontSize: "14px" }}
+                />
+                Sales
+              </MenuItem>
+            </Link>
           </MenuList>
           <Hr />
 

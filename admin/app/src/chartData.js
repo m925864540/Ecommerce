@@ -60,3 +60,11 @@ export const rows = [
   { id: 5, Username: "Jason", Email: "Jason@Gmail.com", Status: "Active" },
   { id: 6, Username: "Jason", Email: "Jason@Gmail.com", Status: "Active" },
 ]; 
+export const productRows = [
+  { id: 1, Product: "Shirt", Stock: "4", Status: "Active", Price: "$99.99" },
+  { id: 2, Product: "Jean", Stock: "10", Status: "Active", Price: "$99.99" },
+  { id: 3, Product: "Pant", Stock: "99", Status: "Active", Price: "$99.99" },
+  { id: 4, Product: "Shoe", Stock: "2", Status: "Active", Price: "$99.99" },
+  { id: 5, Product: "Tie", Stock: "6", Status: "Active", Price: "$99.99" },
+  { id: 6, Product: "Jacket", Stock: "3", Status: "Active", Price: "$99.99" },
+]; 

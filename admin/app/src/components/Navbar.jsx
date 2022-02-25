@@ -8,7 +8,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 
 const Container = styled.div`
   height: 60px;
-  background-color: #e3e3e7;
+  background-color: #f9f9f9;
   position: sticky;
   top: 0;
   ${mobileDevice({ height: "50px" })}
@@ -52,7 +52,9 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Left>
-          <Logo>Logo</Logo>
+          <Link to="/" style={{ textDecoration: "none",color: "inherit" }}>
+            <Logo>Logo</Logo>
+          </Link>
         </Left>
 
         <Right>

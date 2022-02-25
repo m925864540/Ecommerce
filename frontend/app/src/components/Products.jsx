@@ -70,7 +70,7 @@ const Products = ({ category, colorAndSizeFilter, sortOptionFilter }) => {
 
   return (
     <Container>
-      {category? filterProducts.map((item) => ( //Category is choosedl.
+      {category? filterProducts.map((item) => ( //Category is choosed.
         <Product item={item} key={item._id} />
       )) : allProducts.map((item) => (          // On home page display under category.
         <Product item={item} key={item._id} />

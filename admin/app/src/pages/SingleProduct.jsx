@@ -1,21 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import PersonIcon from "@material-ui/icons/Person";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
-import EmailIcon from "@material-ui/icons/Email";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import { Link } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const Container = styled.div``;
 const SideBySide = styled.div`
   display: flex;
 `;
-
-const UserContainer = styled.div`
+const ProductContainer = styled.div`
   display: flex;
   width: 86vw;
   flex-direction: column;
@@ -41,7 +35,7 @@ const CreateButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
-const UserBottomContainer = styled.div`
+const ProductBottomContainer = styled.div`
   display: flex;
   height: 90%;
 `;
@@ -50,7 +44,7 @@ const LeftContainer = styled.div`
 `;
 const InfoContainer = styled.div`
   width: 300px;
-  height: 500px;
+  height: 250px;
   ${"" /* background-color: black; */}
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -64,23 +58,24 @@ const Info = styled.div`
   padding: 20px;
 `;
 
-const Username = styled.h1`
+const ProductName = styled.h1`
   font-size: 20px;
   font-weight: 600;
   color: #373737;
   margin: 10px;
+  margin-left: 20px;
 `;
-const IconAndText = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 20px;
-  align-items: center;
-`;
-const UserInfo = styled.p`
+const ProductInfo = styled.p`
   font-size: 16px;
   font-weight: 500;
   color: #373737;
   margin-left: 10px;
+  margin: 5px;
+`;
+const Span = styled.span`
+  fontweight: 400;
+  color: #888888;
+  margin-right: 20px;
 `;
 const Hr = styled.hr`
   background-color: #575757;
@@ -133,6 +128,11 @@ const UpdateButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+const Select = styled.select`
+  margin-left: 10px;
+  margin: 5px;
+`;
+const Option = styled.option``;
 const DashBoardTitle = styled.h1`
   /* Created with https://www.css-gradient.com */
   background: #ffffff;
@@ -145,54 +145,45 @@ const DashBoardTitle = styled.h1`
   justify-content: space-between;
   align-items: center;
 `;
-const SingleUser = () => {
+const SingleProduct = () => {
   return (
     <Container>
       <Navbar />
       <SideBySide>
         <Sidebar />
-
-        <UserContainer>
+        <ProductContainer>
           <DashBoardTitle>
             <Link
-              to={"/user"}
+              to={"/products"}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Title>
                 <ArrowBackIcon />
               </Title>
             </Link>
-            <Title>User</Title>
-            <Link to="/newUser" style={{ textDecoration: "none" }}>
-              <CreateButton>Create User</CreateButton>
+            <Title>Product</Title>
+            <Link to="/newProduct" style={{ textDecoration: "none" }}>
+              <CreateButton>Create Product</CreateButton>
             </Link>
           </DashBoardTitle>
-          <UserBottomContainer>
+
+          <ProductBottomContainer>
             <LeftContainer>
               <InfoContainer>
                 <Info>
-                  <Username>Mike Lin</Username>
-                  <IconAndText>
-                    <PersonIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>m925864540</UserInfo>
-                  </IconAndText>
-                  <IconAndText>
-                    <DateRangeIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>06/08/1999</UserInfo>
-                  </IconAndText>
-                  <Hr />
-                  <IconAndText>
-                    <ContactPhoneIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>123 456 7890</UserInfo>
-                  </IconAndText>
-                  <IconAndText>
-                    <EmailIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>Mikelin@Gmail.com</UserInfo>
-                  </IconAndText>
-                  <IconAndText>
-                    <LocationOnIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>Georgia, USA</UserInfo>
-                  </IconAndText>
+                  <ProductName>Shirt</ProductName>
+                  <ProductInfo>
+                    <Span>ID:</Span> 123
+                  </ProductInfo>
+                  <ProductInfo>
+                    <Span>In Stock:</Span> Yes
+                  </ProductInfo>
+                  <ProductInfo>
+                    <Span>Active:</Span> Yes
+                  </ProductInfo>
+                  <ProductInfo>
+                    <Span>Sales:</Span> 6
+                  </ProductInfo>
                 </Info>
               </InfoContainer>
             </LeftContainer>
@@ -201,23 +192,29 @@ const SingleUser = () => {
               <EditContainer>
                 <Info>
                   <EditTitle>Edit</EditTitle>
-                  <UserInfo>Full Name</UserInfo>
-                  <Input placeholder="Mike Lin" />
-                  <UserInfo>Email</UserInfo>
-                  <Input placeholder="Mikelin@Gmail.com" />
-                  <UserInfo>Contact</UserInfo>
-                  <Input placeholder="123 456 7890" />
-                  <UserInfo>Address</UserInfo>
-                  <Input placeholder="Georgia, USA" />
+                  <ProductInfo>Product Name</ProductInfo>
+                  <Input placeholder="Shirt" />
+                  <ProductInfo>Description</ProductInfo>
+                  <Input placeholder="Description..." />
+                  <ProductInfo>In Stoack</ProductInfo>
+                  <Select name="inStock" id="inStock">
+                    <Option value="yes">Yes</Option>
+                    <Option value="no">No</Option>
+                  </Select>
+                  <ProductInfo>Active</ProductInfo>
+                  <Select name="active" id="active">
+                    <Option value="yes">Yes</Option>
+                    <Option value="no">No</Option>
+                  </Select>
                 </Info>
                 <UpdateButton>Update</UpdateButton>
               </EditContainer>
             </RightContainer>
-          </UserBottomContainer>
-        </UserContainer>
+          </ProductBottomContainer>
+        </ProductContainer>
       </SideBySide>
     </Container>
   );
 };
 
-export default SingleUser;
+export default SingleProduct;
