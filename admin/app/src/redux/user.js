@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { userRequest } from "./requestMethod";
-
+import { adminRequest } from "./requestMethod";
 
 /**
- * Login for user.
+ * Login for admin.
  */
 const userSlice = createSlice({
   name: "user",
@@ -27,9 +26,9 @@ const userSlice = createSlice({
         state.fetching=false;
         state.fail=true;
       },
-      logout: (state)=>{
-        state.currentUser=null;
-      }
+      logout: (state) => {
+        state.currentUser = null;
+      },
   },
 });
 
@@ -37,15 +36,17 @@ const userSlice = createSlice({
 export const loginFunc = async (dispatch, navigate, userLoginCredential) => {
     dispatch(login());
     try{
-        const res = await userRequest.post('/auth/login', userLoginCredential);
-        // console.log("res data is: ", res.data)
+        const res = await adminRequest.post('/auth/login', userLoginCredential);
+        // console.log("[Admin] res data is: ", res.data)
+
         dispatch(loginSuccess(res.data));
-        navigate('/')
+        navigate('/home')
     }catch(err){
         dispatch(loginFail());
-        console.log("Something wrong with login")
+        console.log("Something wrong with login: ",err)
     }  
 }
+
 export const logoutFunc = (dispatch, navigate) =>{
   dispatch(logout());
   navigate('/')

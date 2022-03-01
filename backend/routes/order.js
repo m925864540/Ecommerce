@@ -8,14 +8,13 @@ const {
 } = require("./verifyToken");
 /***
  * All user can create order
- * Only admin can update, delete, and view orders.
+ * Only admin can view all orders.
  */
 /**
  * Create an order
  */
-router.post("/", verifyTokenAndAuth, async (req, res) => {
+router.post("/", async (req, res) => {
   //Take every in the body, assuming no mistake made.
-  //Can be modify later to check not nulls.
   const newOrder = new Order(req.body);
 
   try {
@@ -30,7 +29,7 @@ router.post("/", verifyTokenAndAuth, async (req, res) => {
  * Update an order
  *
  */
-router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(req.params.id, {
       $set: req.body,
@@ -44,10 +43,22 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 /**
  * Delete a order
  */
-router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
     return res.status(200).json("Order has been deleted");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+/**
+ * Delete all order
+ */
+ router.delete("/delete", verifyTokenAndAuth, async (req, res) => {
+  try {
+    await Order.remove({});
+    return res.status(200).json("All Order has been deleted");
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -73,6 +84,7 @@ router.get("/find/:userId", verifyTokenAndAuth, async (req, res) => {
 router.get("/find", verifyTokenAndAdmin, async (req, res) => {
   try {
     const allOrders = await Order.find();
+    console.log("Order size: ", allOrders.length)
     return res.status(200).json(allOrders);
   } catch (err) {
     return res.status(500).json(err);

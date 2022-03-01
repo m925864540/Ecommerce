@@ -5,6 +5,7 @@ import ShowChartIcon from "@material-ui/icons/ShowChart";
 import PersonIcon from "@material-ui/icons/Person";
 import LabelIcon from "@material-ui/icons/Label";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import Mainbar from "./Mainbar";
 import { Link } from "react-router-dom";
 
@@ -24,7 +25,7 @@ const SideWrapper = styled.div`
   margin-left: 10px;
 `;
 const MenuText = styled.h1`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   margin-bottom: 5px;
   color: #6c6c6c;
@@ -39,7 +40,7 @@ const MenuItem = styled.li`
   align-items: center;
   padding-top: 5px;
   padding-bottom: 5px;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   color: #3e3e3e;
   cursor: pointer;
@@ -64,10 +65,10 @@ const Sidebar = () => {
         <SideWrapper>
           <MenuText>Main Menu</MenuText>
           <MenuList>
-            <Link to={"/"} style={{ textDecoration: "none" }}>
+            <Link to={"/home"} style={{ textDecoration: "none" }}>
               <MenuItem>
                 <DashboardIcon
-                  style={{ marginRight: "10px", fontSize: "14px" }}
+                  style={{ marginRight: "10px", fontSize: "18px" }}
                 />
                 Dashboard
               </MenuItem>
@@ -75,27 +76,33 @@ const Sidebar = () => {
             <Link to={"/analyst"} style={{ textDecoration: "none" }}>
             <MenuItem id={1}>
               <ShowChartIcon
-                style={{ marginRight: "10px", fontSize: "14px" }}
+                style={{ marginRight: "10px", fontSize: "18px" }}
               />
               Analyst
             </MenuItem>
             </Link>
             <Link to={"/user"} style={{ textDecoration: "none" }}>
               <MenuItem path>
-                <PersonIcon style={{ marginRight: "10px", fontSize: "14px" }} />
+                <PersonIcon style={{ marginRight: "10px", fontSize: "18px" }} />
                 Users
               </MenuItem>
             </Link>
             <Link to={"/products"} style={{ textDecoration: "none" }}>
               <MenuItem>
-                <LabelIcon style={{ marginRight: "10px", fontSize: "14px" }} />
+                <LabelIcon style={{ marginRight: "10px", fontSize: "18px" }} />
                 Products
+              </MenuItem>
+            </Link>
+            <Link to={"/transaction"} style={{ textDecoration: "none" }}>
+              <MenuItem>
+                <AttachMoneyIcon style={{ marginRight: "10px", fontSize: "18px" }} />
+                Transaction
               </MenuItem>
             </Link>
             <Link to={"/sales"} style={{ textDecoration: "none" }}>
               <MenuItem>
-                <AttachMoneyIcon
-                  style={{ marginRight: "10px", fontSize: "14px" }}
+                <AccountBalanceIcon
+                  style={{ marginRight: "10px", fontSize: "18px" }}
                 />
                 Sales
               </MenuItem>
@@ -107,18 +114,18 @@ const Sidebar = () => {
           <MenuList>
             <MenuItem>
               <DashboardIcon
-                style={{ marginRight: "10px", fontSize: "14px" }}
+                style={{ marginRight: "10px", fontSize: "18px" }}
               />{" "}
               Mail
             </MenuItem>
             <MenuItem>
               <ShowChartIcon
-                style={{ marginRight: "10px", fontSize: "14px" }}
+                style={{ marginRight: "10px", fontSize: "18px" }}
               />{" "}
               Feedback
             </MenuItem>
             <MenuItem>
-              <PersonIcon style={{ marginRight: "10px", fontSize: "14px" }} />{" "}
+              <PersonIcon style={{ marginRight: "10px", fontSize: "18px" }} />{" "}
               Messages
             </MenuItem>
           </MenuList>
@@ -128,13 +135,13 @@ const Sidebar = () => {
           <MenuList>
             <MenuItem>
               <DashboardIcon
-                style={{ marginRight: "10px", fontSize: "14px" }}
+                style={{ marginRight: "10px", fontSize: "18px" }}
               />{" "}
               Manage
             </MenuItem>
             <MenuItem>
               <ShowChartIcon
-                style={{ marginRight: "10px", fontSize: "14px" }}
+                style={{ marginRight: "10px", fontSize: "18px" }}
               />{" "}
               Report
             </MenuItem>

@@ -9,7 +9,9 @@ const jwt = require("jsonwebtoken");
  */
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
-  
+  // console.log("username: ", username)
+  // console.log("email: ", email)
+  // console.log("password: ", password)
   if (!username) {
     return res.status(400).json("Enter an username");
   }
@@ -77,7 +79,7 @@ router.post("/login", async (req, res) => {
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRETKEY,
-      {expiresIn:"1d"}  
+      // {expiresIn:"1d"}  
     );
 
     // console.log('._doc', user)
@@ -87,7 +89,9 @@ router.post("/login", async (req, res) => {
     //...others contains user info except password.
     const { password: pw, ...others } = user._doc;
     //With ... infront others, it will return key: others, and its value(user info).
+    console.log({...others, accessToken})
     return res.status(200).json({...others, accessToken}); //return object without password information and jwt token
+
   } catch (err) {
     return res.status(500).json(err);
   }

@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { userRequest } from "../redux/requestMethod";
 // import { useHistory } from "react-router-dom";
 
 const Container = styled.div``;
@@ -210,14 +211,14 @@ const ShoppingCart = () => {
         //Send to server, and the stripe.charges at server will return us with stripeRes.
         //res therefore equals stripeRes in server.
         //res will contain all the info we need, such as id, address.
-        const res = await axios.post(
-          "http://localhost:8080/api/checkout/payment",
+        const res = await userRequest.post(
+          "/checkout/payment",
           {
             tokenId: stripeToken.id,
             amount: product.totalPrice * 100,
           }
         );
-        //console.log("res.data is:",res.data);
+        console.log("res.data is:",res.data);
         navigate("/payment/success", {
           state: { stripeData: res.data, allProducts: product }, //All user added product send.
         });

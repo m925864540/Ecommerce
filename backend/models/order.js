@@ -4,10 +4,12 @@ const mongoose = require('mongoose')
 const OrderScheme = new mongoose.Schema(
     { 
         user_ID:{type: String, required: true}, 
-        product: [
+        products: [
             {
                 productID:{type: String},
                 quantity: {type: Number, default: 1},
+                color:{type: String},
+                quantity:{type: Number, default:1},
             }
         ],
         amount: {type: Number, required: true},

@@ -13,8 +13,7 @@ import { useSelector } from "react-redux";
 
 function App() {
   const {currentUser} = useSelector((state)=>state.user);
-  console.log("Inside App: ", currentUser);
-
+  console.log("Inside [Frontend] App: ", currentUser);
   return (
     <Router>
       <Routes>

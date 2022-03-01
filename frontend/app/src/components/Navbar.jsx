@@ -5,8 +5,10 @@ import { Search } from "@material-ui/icons";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Badge } from "@material-ui/core";
 import { mobileDevice } from "../responsive";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { logoutFunc } from "../redux/user";
+import { useNavigate } from "react-router";
 
 const Container = styled.div`
   height: 60px;
@@ -70,8 +72,15 @@ const Navbar = () => {
   //On navbar, only shows quantity on cart.
   const cartQuantity = useSelector((state) => state.cart.quantity);
   const { currentUser } = useSelector((state) => state.user);
-  console.log("Inside Navbar: ", currentUser);
+  // console.log("Inside Navbar: ", currentUser);
 
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logout = (e) => {
+    e.preventDefault();
+    logoutFunc(dispatch, navigate);
+  };
   return (
     <Container>
       <Wrapper>
@@ -88,16 +97,26 @@ const Navbar = () => {
           </Link>
         </Center>
         <Right>
-        {currentUser ? <MenuItem>{currentUser.username}</MenuItem> :
-        <Right>
-          <Link key="toRegister" to={"/register"}>
-            <MenuItem>Register</MenuItem>
-          </Link>
-          <Link key="toLogin" to={"/login"}>
-            <MenuItem>Sign In</MenuItem>
-          </Link>
-          </Right>
-        }
+          {currentUser ? (
+            <>
+              <MenuItem>{currentUser.username}</MenuItem>
+              <MenuItem>
+                {" "}
+                <p style={{ marginLeft: "10px" }} onClick={logout}>
+                  Logout
+                </p>
+              </MenuItem>
+            </>
+          ) : (
+            <Right>
+              <Link key="toRegister" to={"/register"} style={{ textDecoration: "none", fontSize: "20px" }}>
+                <MenuItem>Register</MenuItem>
+              </Link>
+              <Link key="toLogin" to={"/login"} style={{ textDecoration: "none", fontSize: "20px" }}>
+                <MenuItem>Sign In</MenuItem>
+              </Link>
+            </Right>
+          )}
           <Link key="toCart" to={"/cart"}>
             <MenuItem>
               <Badge badgeContent={cartQuantity} color="primary">

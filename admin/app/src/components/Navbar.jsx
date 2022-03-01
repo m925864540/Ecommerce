@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { mobileDevice } from "../responsive";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector , useDispatch} from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import SettingsIcon from "@material-ui/icons/Settings";
+import { logoutFunc } from "../redux/user";
 
 const Container = styled.div`
   height: 60px;
@@ -48,25 +49,45 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
+  // console.log(currentUser)
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logout = (e)=>{
+    e.preventDefault();
+    logoutFunc(dispatch, navigate);
+  }
   return (
     <Container>
       <Wrapper>
         <Left>
-          <Link to="/" style={{ textDecoration: "none",color: "inherit" }}>
+          <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
             <Logo>Logo</Logo>
           </Link>
         </Left>
 
         <Right>
-          <MenuItem>
-            <NotificationsActiveIcon />
-          </MenuItem>
-          <MenuItem>
-            <SettingsIcon />
-          </MenuItem>
-          <MenuItem>
-            <p> User</p>
-          </MenuItem>
+          {currentUser ? (
+            <>
+              <MenuItem>
+                <NotificationsActiveIcon />
+              </MenuItem>
+              <MenuItem>
+                <SettingsIcon />
+              </MenuItem>
+              <MenuItem>
+                <p style={{fontSize: "20px", fontWeight: 600}} >{currentUser.username}</p>
+              </MenuItem>
+              <MenuItem>
+                <p style={{fontSize: "18px"}} onClick={logout}>Logout</p>
+              </MenuItem>
+            </>
+          ):<MenuItem>
+              <Link to={"/login"} style={{ textDecoration: "none", fontSize: "20px" }}>Login</Link>
+            </MenuItem>
+          }
         </Right>
       </Wrapper>
     </Container>

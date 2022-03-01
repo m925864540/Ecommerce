@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
+import { userRequest } from './../redux/requestMethod';
 // const env=require("dotenv").config()
 
 const Container = styled.div`
@@ -44,8 +45,8 @@ const Checkout = () => {
           //Send to server, and the stripe.charges at server will return us with stripeRes.
           //res therefore equals stripeRes in server.
           //res will contain all the info we need, such as id, address.
-        const res = await axios.post(
-          "http://localhost:8080/api/checkout/payment",
+        const res = await userRequest.post(
+          "/checkout/payment",
           {
             tokenId: stripeToken.id,
             amount: 1999,   //fake amount;

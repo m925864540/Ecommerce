@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShowChartIcon from "@material-ui/icons/ShowChart";
@@ -7,6 +7,7 @@ import LabelIcon from "@material-ui/icons/Label";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import Chart from "./Chart";
 import { data } from "../chartData.js";
+import { adminRequest } from "../redux/requestMethod";
 
 const Container = styled.div`
   display: flex;
@@ -76,6 +77,74 @@ const Text = styled.p`
 // `;
 
 const Mainbar = () => {
+  
+  const MONTHS = useMemo(
+    () => [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    []
+  );
+
+  //Get user montly stats
+  const [userStat, setUserStat] = useState([]);
+  useEffect(() => {
+    const getUserStat = async () => {
+      try {
+        const res = await adminRequest.get("/users/stats");
+        // console.log("res is: ", res.data);
+        res.data.map((item) => {
+          setUserStat((prev) => [
+            ...prev,
+            { name: MONTHS[item._id - 1], "user": item.total },
+          ]);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserStat();
+  }, [MONTHS]);
+  // console.log(userStat)
+
+  //Get total users
+  const [totalUser, setTotalUser] = useState("");
+  useEffect(() => {
+    const getTotalUser = async () => {
+      try {
+        const res = await adminRequest.get("/users/find");
+        setTotalUser(res.data.length);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getTotalUser();
+  });
+
+  //Get total products
+  const [totalProduct, setTotalProduct] = useState("");
+  useEffect(() => {
+    const getTotalProduct = async () => {
+      try {
+        const res = await adminRequest.get("/product");
+        setTotalProduct(res.data.length);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getTotalProduct();
+  });
+
   return (
     <Container>
       <DashBoardTitle>Admin Dashboard</DashBoardTitle>
@@ -86,7 +155,7 @@ const Mainbar = () => {
               <Title>Products</Title>
               <IconAndText>
                 <LabelIcon />
-                <Text>160</Text>
+                <Text>{totalProduct}</Text>
               </IconAndText>
             </Info>
           </InfoContainer>
@@ -104,14 +173,14 @@ const Mainbar = () => {
               <Title>Users</Title>
               <IconAndText>
                 <PersonIcon />
-                <Text>5</Text>
+                <Text>{totalUser}</Text>
               </IconAndText>
             </Info>
           </InfoContainer>
         </InfoWrapper>
       </Main>
 
-      <Chart chartData={data} chartTitle="User Statistics" dataKey="Users" />
+      <Chart chartData={userStat} chartTitle="User Statistics" dataKey="user" />
     </Container>
   );
 };
