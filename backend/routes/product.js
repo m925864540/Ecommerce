@@ -29,6 +29,7 @@ router.post("/", verifyTokenAndAdmin, async (req, res) => {
  * Update a product
  */
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+  console.log(req.body)
   try {
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
       $set: req.body,
@@ -71,7 +72,7 @@ router.get("/", async (req, res) => {
   //req.query.'new' correspond to the name of the query in postman params. Ex: new=true
   const qNew = req.query.new;
   const qCategory = req.query.category;
-  console.log(qCategory)
+  console.log(qCategory);
   try {
     let product;
     if (qNew) {
@@ -79,7 +80,8 @@ router.get("/", async (req, res) => {
       products = await Product.find().sort({ _id: -1 }).limit(3);
     } else if (qCategory) {
       products = await Product.find({
-        category: {        //If categories is inside Array define in Product models, fetch it.
+        category: {
+          //If categories is inside Array define in Product models, fetch it.
           $in: [qCategory],
         },
       });

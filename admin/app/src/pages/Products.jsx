@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import styled from "styled-components";
@@ -7,6 +7,8 @@ import { DataGrid } from "@material-ui/data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { productRows } from "../chartData.js";
+import { deleteProductFunc, getProductFunc } from "../redux/product";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div``;
 const SideBySide = styled.div`
@@ -64,27 +66,49 @@ const DashBoardTitle = styled.h1`
   justify-content: space-between;
   align-items: center;
 `;
+const ImageContainer = styled.div`
+  height: 50px;
+  width: 50px;
+`;
+const Image = styled.img`
+  height: 50px;
+  width: 50px;
+`;
 
 const Products = () => {
+  //Getting all product from redux.
+  const products = useSelector((state) => state.product.products);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getProductFunc(dispatch);
+  }, []);
+
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "_id", headerName: "ID", width: 200 },
     {
-      field: "Product",
+      field: "title",
       headerName: "Product",
       width: 150,
     },
     {
-      field: "Stock",
-      headerName: "Email",
+      field: "image",
+      headerName: "Image",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <ImageContainer>
+            <Image src={params.row.image} alt="product picture"></Image>
+          </ImageContainer>
+        );
+      },
+    },
+    {
+      field: "inStock",
+      headerName: "In Stock",
       width: 150,
     },
     {
-      field: "Status",
-      headerName: "Status",
-      width: 150,
-    },
-    {
-      field: "Price",
+      field: "price",
       headerName: "Price",
       width: 150,
     },
@@ -97,13 +121,13 @@ const Products = () => {
           <ButtonIconContainer>
             <Link
               style={{ textDecoration: "none" }}
-              to={"/product/" + params.row.id}
+              to={"/product/" + params.row._id}
             >
               <ButtonIcon>
                 <EditIcon />
               </ButtonIcon>
             </Link>
-            <ButtonIcon onClick={() => handleRemove(params.row.id)}>
+            <ButtonIcon onClick={() => handleRemove(params.row._id)}>
               <DeleteOutlineIcon />
             </ButtonIcon>
           </ButtonIconContainer>
@@ -112,9 +136,8 @@ const Products = () => {
     },
   ];
 
-  const [data, setData] = useState(productRows);
-  const handleRemove = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleRemove = (_id) => {
+    deleteProductFunc(dispatch, _id);
   };
 
   return (
@@ -130,9 +153,10 @@ const Products = () => {
             </Link>
           </DashBoardTitle>
           <DataGrid
-            rows={data}
+            rows={products}
             columns={columns}
             // rowsPerPageOptions={5}
+            getRowId={(row) => row._id}
             pageSize={8}
             checkboxSelection
             disableSelectionOnClick

@@ -78,6 +78,7 @@ const Text = styled.p`
 
 const Mainbar = () => {
   
+  //Use for Chart
   const MONTHS = useMemo(
     () => [
       "Jan",
@@ -96,7 +97,7 @@ const Mainbar = () => {
     []
   );
 
-  //Get user montly stats
+  //Get user monthly stats
   const [userStat, setUserStat] = useState([]);
   useEffect(() => {
     const getUserStat = async () => {
@@ -117,6 +118,21 @@ const Mainbar = () => {
   }, [MONTHS]);
   // console.log(userStat)
 
+  //Get total products
+  const [totalProduct, setTotalProduct] = useState("");
+  useEffect(() => {
+    const getTotalProduct = async () => {
+      try {
+        const res = await adminRequest.get("/product");
+        setTotalProduct(res.data.length);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getTotalProduct();
+  });
+
+  
   //Get total users
   const [totalUser, setTotalUser] = useState("");
   useEffect(() => {
@@ -131,18 +147,18 @@ const Mainbar = () => {
     getTotalUser();
   });
 
-  //Get total products
-  const [totalProduct, setTotalProduct] = useState("");
+  //Get total sales
+  const [totalSales, setTotalSales] = useState("");
   useEffect(() => {
-    const getTotalProduct = async () => {
+    const getTotalSales = async () => {
       try {
-        const res = await adminRequest.get("/product");
-        setTotalProduct(res.data.length);
+        const res = await adminRequest.get("/order/allIncome");
+        setTotalSales((res.data).toFixed(2));
       } catch (err) {
         console.log(err);
       }
     };
-    getTotalProduct();
+    getTotalSales();
   });
 
   return (
@@ -164,7 +180,7 @@ const Mainbar = () => {
               <Title>Sales</Title>
               <IconAndText>
                 <AttachMoneyIcon />
-                <Text>$4,231.99</Text>
+                <Text>${totalSales}</Text>
               </IconAndText>
             </Info>
           </InfoContainer>
@@ -179,7 +195,7 @@ const Mainbar = () => {
           </InfoContainer>
         </InfoWrapper>
       </Main>
-
+      
       <Chart chartData={userStat} chartTitle="User Statistics" dataKey="user" />
     </Container>
   );

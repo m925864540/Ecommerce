@@ -1,9 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProductFunc } from './../redux/product';
 
 const Container = styled.div``;
 const SideBySide = styled.div`
@@ -40,11 +42,11 @@ const ProductBottomContainer = styled.div`
   height: 90%;
 `;
 const LeftContainer = styled.div`
-  flex: 1;
+  flex: 2;
 `;
 const InfoContainer = styled.div`
-  width: 300px;
-  height: 250px;
+  width: 350px;
+  height: 450px;
   ${"" /* background-color: black; */}
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -59,23 +61,31 @@ const Info = styled.div`
 `;
 
 const ProductName = styled.h1`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
   color: #373737;
   margin: 10px;
   margin-left: 20px;
+  margin-bottom: 20px;
 `;
 const ProductInfo = styled.p`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   color: #373737;
   margin-left: 10px;
-  margin: 5px;
+  margin: 10px 5px 10px 5px;
+  display: flex;
+  align-items: center;
 `;
 const Span = styled.span`
   fontweight: 400;
   color: #888888;
   margin-right: 20px;
+`;
+const Image = styled.img`
+  height: 200px;
+  width: 200px;
+  background-color: black;
 `;
 const Hr = styled.hr`
   background-color: #575757;
@@ -86,11 +96,11 @@ const Hr = styled.hr`
   margin-top: 10px;
 `;
 const RightContainer = styled.div`
-  flex: 2;
+  flex: 3;
 `;
 const EditContainer = styled.div`
   width: 600px;
-  height: 500px;
+  height: 550px;
   ${"" /* background-color: black; */}
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -113,6 +123,7 @@ const Input = styled.input`
   background: transparent;
   border-bottom: 1px solid black;
   margin: 20px 10px 20px 10px;
+  width: 200px;
 `;
 const UpdateButton = styled.button`
   display: flex;
@@ -146,6 +157,27 @@ const DashBoardTitle = styled.h1`
   align-items: center;
 `;
 const SingleProduct = () => {
+  const location = useLocation();
+  const productID = location.pathname.split("/")[2];
+  //Retrieve the product with the ID.
+  const product = useSelector((state) =>
+    state.product.products.find((item) => (
+      item._id === productID
+    ))
+  );
+
+// console.log(product);
+const [productName, setProductName] = useState();
+const [productDescription, setProductDescription] = useState();
+const [productPrice, setProductPrice] = useState();
+const [inStock, setInStock] = useState(true);
+// console.log("in stock is:", inStock)
+
+const dispatch = useDispatch();
+const navigate = useNavigate();
+const handleUpdate = () =>{
+  updateProductFunc(dispatch, navigate, productID, productName, productDescription, productPrice, inStock);
+}
   return (
     <Container>
       <Navbar />
@@ -171,18 +203,22 @@ const SingleProduct = () => {
             <LeftContainer>
               <InfoContainer>
                 <Info>
-                  <ProductName>Shirt</ProductName>
+                  <ProductName>{product.title}</ProductName>
                   <ProductInfo>
-                    <Span>ID:</Span> 123
+                    <Span>ID:</Span> {product._id}
                   </ProductInfo>
                   <ProductInfo>
-                    <Span>In Stock:</Span> Yes
+                    <Span>Description:</Span> {product.description}
                   </ProductInfo>
                   <ProductInfo>
-                    <Span>Active:</Span> Yes
+                    <Span>Price:</Span> {product.price}
                   </ProductInfo>
                   <ProductInfo>
-                    <Span>Sales:</Span> 6
+                    <Span>In Stock:</Span> {product.inStock===true ? "Yes": "No"}
+                  </ProductInfo>
+                  <Hr />
+                  <ProductInfo>
+                    <Image src={product.image} alt="" />
                   </ProductInfo>
                 </Info>
               </InfoContainer>
@@ -193,21 +229,19 @@ const SingleProduct = () => {
                 <Info>
                   <EditTitle>Edit</EditTitle>
                   <ProductInfo>Product Name</ProductInfo>
-                  <Input placeholder="Shirt" />
+                  <Input onChange={e=> setProductName(e.target.value)} placeholder={product.title} />
                   <ProductInfo>Description</ProductInfo>
-                  <Input placeholder="Description..." />
-                  <ProductInfo>In Stoack</ProductInfo>
-                  <Select name="inStock" id="inStock">
-                    <Option value="yes">Yes</Option>
-                    <Option value="no">No</Option>
+                  <Input onChange={e=> setProductDescription(e.target.value)} placeholder={product.description} />
+                  <ProductInfo>Price</ProductInfo>
+                  <Input onChange={e=> setProductPrice(e.target.value)} placeholder={product.price} />
+                  <ProductInfo>In Stock</ProductInfo>
+                  <Select name="inStock" id="inStock"onChange={e=> setInStock(e.target.value)}>
+                    <Option value={true} >Yes</Option>
+                    <Option value={false}>No</Option>
                   </Select>
-                  <ProductInfo>Active</ProductInfo>
-                  <Select name="active" id="active">
-                    <Option value="yes">Yes</Option>
-                    <Option value="no">No</Option>
-                  </Select>
+                  
                 </Info>
-                <UpdateButton>Update</UpdateButton>
+                <UpdateButton onClick={handleUpdate}>Update</UpdateButton>
               </EditContainer>
             </RightContainer>
           </ProductBottomContainer>

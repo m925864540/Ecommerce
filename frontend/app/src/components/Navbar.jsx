@@ -92,7 +92,7 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Link key="toHome" to={"/"}>
+          <Link key="toHome" style={{ textDecoration: "none", color: "black"}} to={"/"}>
             <Logo>Logo</Logo>
           </Link>
         </Center>
@@ -102,7 +102,7 @@ const Navbar = () => {
               <MenuItem>{currentUser.username}</MenuItem>
               <MenuItem>
                 {" "}
-                <p style={{ marginLeft: "10px" }} onClick={logout}>
+                <p style={{ marginLeft: "10px"}} onClick={logout}>
                   Logout
                 </p>
               </MenuItem>

@@ -84,7 +84,7 @@ router.get("/find/:userId", verifyTokenAndAuth, async (req, res) => {
 router.get("/find", verifyTokenAndAdmin, async (req, res) => {
   try {
     const allOrders = await Order.find();
-    console.log("Order size: ", allOrders.length)
+    // console.log("Order size: ", allOrders.length)
     return res.status(200).json(allOrders);
   } catch (err) {
     return res.status(500).json(err);
@@ -92,7 +92,7 @@ router.get("/find", verifyTokenAndAdmin, async (req, res) => {
 });
 
 /**
- * Get montly income
+ * Get monthly income
  */
 router.get("/income", verifyTokenAndAdmin, async (req, res) => {
   const date = new Date();
@@ -116,6 +116,24 @@ router.get("/income", verifyTokenAndAdmin, async (req, res) => {
         },
     ])
     return res.status(200).json(income);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+/**
+ * Get total income
+ */
+ router.get("/allIncome", verifyTokenAndAdmin, async (req, res) => {
+  
+  try {
+    const allOrders = await Order.find();
+    console.log(allOrders)
+    let total=0;
+    for(let i=0; i< allOrders.length; i++){
+      total += allOrders[i].amount;
+    }
+    return res.status(200).json(total);
   } catch (err) {
     return res.status(500).json(err);
   }
