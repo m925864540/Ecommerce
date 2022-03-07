@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { DataGrid } from "@material-ui/data-grid";
-import { rows } from "../chartData.js";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCustomerFunc, getCustomerFunc } from "../redux/customer";
 
 const ButtonIconContainer = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ const CreateButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
-const DashBoardTitle = styled.h1`
+const DashBoardTitle = styled.div`
   /* Created with https://www.css-gradient.com */
   background: #ffffff;
   background: -webkit-radial-gradient(center, #ffffff, #d8d8d8);
@@ -55,39 +56,59 @@ const DashBoardTitle = styled.h1`
 `;
 
 const User = () => {
+
+  //Getting all customers from redux.
+  const customers = useSelector((state) => state.customer.customers);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    getCustomerFunc(dispatch);
+  }, []);
+
+  // console.log("Customers: ",customers)
+
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "_id", headerName: "ID", width: 220 },
     {
-      field: "Username",
+      field: "username",
       headerName: "User",
       width: 150,
     },
     {
-      field: "Email",
-      headerName: "Email",
+      field: "firstName",
+      headerName: "First Name",
       width: 150,
     },
     {
-      field: "Status",
-      headerName: "Status",
+      field: "lastName",
+      headerName: "Last Name",
+      width: 150,
+    },    {
+      field: "email",
+      headerName: "Email",
+      width: 200,
+    },
+    {
+      field: "isAdmin",
+      headerName: "Is Admin",
       width: 150,
     },
     {
       field: "Action",
       headerName: "Action",
-      width: 150,
+      width: 200,
       renderCell: (params) => {
         return (
           <ButtonIconContainer>
             <Link
               style={{ textDecoration: "none" }}
-              to={"/user/" + params.row.id}
+              to={"/user/" + params.row._id}
             >
               <ButtonIcon>
                 <EditIcon />
               </ButtonIcon>
             </Link>
-            <ButtonIcon onClick={() => handleRemove(params.row.id)}>
+            <ButtonIcon onClick={() => handleRemove(params.row._id)}>
               <DeleteOutlineIcon />
             </ButtonIcon>
           </ButtonIconContainer>
@@ -96,9 +117,8 @@ const User = () => {
     },
   ];
 
-  const [data, setData] = useState(rows);
-  const handleRemove = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleRemove = (_id) => {
+    deleteCustomerFunc(dispatch, _id);
   };
 
   return (
@@ -114,9 +134,11 @@ const User = () => {
             </Link>
           </DashBoardTitle>
           <DataGrid
-            rows={data}
+            rows={customers}
             columns={columns}
-            pageSize={8}
+            getRowId={(row) => row._id}
+            rowsPerPageOptions={[10]}
+            pageSize={10}
             checkboxSelection
             disableSelectionOnClick
           />

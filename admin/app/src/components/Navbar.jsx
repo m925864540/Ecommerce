@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { mobileDevice } from "../responsive";
-import { useSelector , useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -50,15 +50,7 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
-  // console.log(currentUser)
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const logout = (e)=>{
-    e.preventDefault();
-    logoutFunc(dispatch, navigate);
-  }
   return (
     <Container>
       <Wrapper>
@@ -69,25 +61,19 @@ const Navbar = () => {
         </Left>
 
         <Right>
-          {currentUser ? (
-            <>
-              <MenuItem>
-                <NotificationsActiveIcon />
-              </MenuItem>
-              <MenuItem>
-                <SettingsIcon />
-              </MenuItem>
-              <MenuItem>
-                <p style={{fontSize: "20px", fontWeight: 600}} >{currentUser.username}</p>
-              </MenuItem>
-              <MenuItem>
-                <p style={{fontSize: "18px"}} onClick={logout}>Logout</p>
-              </MenuItem>
-            </>
-          ):<MenuItem>
-              <Link to={"/login"} style={{ textDecoration: "none", fontSize: "20px" }}>Login</Link>
+          <Link to={`/user/${currentUser._id}`} style={{ textDecoration: "none", color: "black"}}>
+            <MenuItem>
+              <p
+                style={{
+                  fontSize: "20px",
+                  fontWeight: 600,
+                  marginRight: "20px",
+                }}
+              >
+                {currentUser.username}
+              </p>
             </MenuItem>
-          }
+          </Link>
         </Right>
       </Wrapper>
     </Container>

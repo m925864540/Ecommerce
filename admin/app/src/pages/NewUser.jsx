@@ -1,9 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { useDispatch } from "react-redux";
+import { createCustomerFunc } from "../redux/customer";
 
 const Container = styled.div``;
 const SideBySide = styled.div`
@@ -63,7 +65,7 @@ const CreateButton = styled.button`
     font-size: 14px;
   }
 `;
-const DashBoardTitle = styled.h1`
+const DashBoardTitle = styled.div`
   /* Created with https://www.css-gradient.com */
   background: #ffffff;
   background: -webkit-radial-gradient(center, #ffffff, #d8d8d8);
@@ -75,6 +77,21 @@ const DashBoardTitle = styled.h1`
   align-items: center;
 `;
 const NewUser = () => {
+
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleCreate = (e) =>{
+    e.preventDefault();
+
+    createCustomerFunc(dispatch, navigate, email, username, password);
+  }
+
   return (
     <Container>
       <Navbar />
@@ -97,16 +114,18 @@ const NewUser = () => {
           </DashBoardTitle>
           <Wrapper>
             <InputTitle>Email</InputTitle>
-            <Input />
-            <InputTitle>Full Name</InputTitle>
-            <Input />
+            <Input type="text"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email..."/>
+            <InputTitle>Username</InputTitle>
+            <Input type="text"
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username..."/>
             <InputTitle>Password</InputTitle>
-            <Input />
-            <InputTitle>Contact</InputTitle>
-            <Input />
-            <InputTitle>Address</InputTitle>
-            <Input />
-            <CreateButton>Create</CreateButton>
+            <Input type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password..."/>
+            <CreateButton onClick={handleCreate}>Create</CreateButton>
           </Wrapper>
         </NewUserContainer>
       </SideBySide>

@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { productRows } from "../chartData.js";
 import { deleteProductFunc, getProductFunc } from "../redux/product";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -54,7 +53,7 @@ const ButtonIcon = styled.div`
   justify-content: center;
   align-item: center;
 `;
-const DashBoardTitle = styled.h1`
+const DashBoardTitle = styled.div`
   /* Created with https://www.css-gradient.com */
   background: #ffffff;
   background: -webkit-radial-gradient(center, #ffffff, #d8d8d8);
@@ -79,6 +78,7 @@ const Products = () => {
   //Getting all product from redux.
   const products = useSelector((state) => state.product.products);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     getProductFunc(dispatch);
   }, []);
@@ -156,8 +156,9 @@ const Products = () => {
             rows={products}
             columns={columns}
             // rowsPerPageOptions={5}
+            rowsPerPageOptions={[10]}
             getRowId={(row) => row._id}
-            pageSize={8}
+            pageSize={10}
             checkboxSelection
             disableSelectionOnClick
           />

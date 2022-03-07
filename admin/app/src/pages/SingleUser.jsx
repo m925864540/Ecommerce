@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -7,8 +7,10 @@ import DateRangeIcon from "@material-ui/icons/DateRange";
 import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
 import EmailIcon from "@material-ui/icons/Email";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCustomerFunc } from "../redux/customer";
 
 const Container = styled.div``;
 const SideBySide = styled.div`
@@ -95,7 +97,7 @@ const RightContainer = styled.div`
 `;
 const EditContainer = styled.div`
   width: 600px;
-  height: 500px;
+  height: 550px;
   ${"" /* background-color: black; */}
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -133,7 +135,7 @@ const UpdateButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
-const DashBoardTitle = styled.h1`
+const DashBoardTitle = styled.div`
   /* Created with https://www.css-gradient.com */
   background: #ffffff;
   background: -webkit-radial-gradient(center, #ffffff, #d8d8d8);
@@ -146,6 +148,25 @@ const DashBoardTitle = styled.h1`
   align-items: center;
 `;
 const SingleUser = () => {
+  const locationThis = useLocation();
+  const customerID = locationThis.pathname.split("/")[2];
+  //Retrieve customer with the ID.
+  const customer = useSelector((state) =>
+    state.customer.customers.find((item) => item._id === customerID)
+  );
+
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [contact, setContact] = useState();
+  const [location, setLocation] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //Updating a user info.
+  const handleUpdate = () =>{
+    updateCustomerFunc(dispatch, navigate, customerID, firstName, lastName, email, contact, location);
+  }
   return (
     <Container>
       <Navbar />
@@ -171,28 +192,28 @@ const SingleUser = () => {
             <LeftContainer>
               <InfoContainer>
                 <Info>
-                  <Username>Mike Lin</Username>
+                  <Username>{`${customer.firstName} ${customer.lastName}`}</Username>
                   <IconAndText>
                     <PersonIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>m925864540</UserInfo>
+                    <UserInfo>{customer.username}</UserInfo>
                   </IconAndText>
                   <IconAndText>
                     <DateRangeIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>06/08/1999</UserInfo>
+                    <UserInfo><label>Admin Status: </label>{customer.isAdmin ? "true" : "false"}</UserInfo>
                   </IconAndText>
                   <Hr />
                   <IconAndText>
-                    <ContactPhoneIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>123 456 7890</UserInfo>
-                  </IconAndText>
-                  <IconAndText>
                     <EmailIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>Mikelin@Gmail.com</UserInfo>
+                    <UserInfo>{customer.email}</UserInfo>
                   </IconAndText>
-                  <IconAndText>
+                  {customer.contact? <div><IconAndText>
+                    <ContactPhoneIcon style={{ fontSize: "18px" }} />
+                    <UserInfo>{customer.contact}</UserInfo>
+                  </IconAndText></div> : null}
+                  {customer.location? <div><IconAndText>
                     <LocationOnIcon style={{ fontSize: "18px" }} />
-                    <UserInfo>Georgia, USA</UserInfo>
-                  </IconAndText>
+                    <UserInfo>{customer.location}</UserInfo>
+                  </IconAndText></div> : null}
                 </Info>
               </InfoContainer>
             </LeftContainer>
@@ -201,16 +222,18 @@ const SingleUser = () => {
               <EditContainer>
                 <Info>
                   <EditTitle>Edit</EditTitle>
-                  <UserInfo>Full Name</UserInfo>
-                  <Input placeholder="Mike Lin" />
+                  <UserInfo>First Name</UserInfo>
+                  <Input onChange={e=> setFirstName(e.target.value)} placeholder={customer.firstName ? customer.firstName : "First Name..."} />
+                  <UserInfo>Last Name</UserInfo>
+                  <Input onChange={e=> setLastName(e.target.value)} placeholder={customer.lastName ? customer.lastName : "Last Name..."} />
                   <UserInfo>Email</UserInfo>
-                  <Input placeholder="Mikelin@Gmail.com" />
+                  <Input onChange={e=> setEmail(e.target.value)} placeholder={customer.email} />
                   <UserInfo>Contact</UserInfo>
-                  <Input placeholder="123 456 7890" />
-                  <UserInfo>Address</UserInfo>
-                  <Input placeholder="Georgia, USA" />
+                  <Input onChange={e=> setContact(e.target.value)} placeholder={customer.contact ? customer.contact : "123 456 7890"} />
+                  <UserInfo>Location</UserInfo>
+                  <Input onChange={e=> setLocation(e.target.value)} placeholder={customer.location ? customer.location : "State, USA"} />
                 </Info>
-                <UpdateButton>Update</UpdateButton>
+                <UpdateButton onClick={handleUpdate}>Update</UpdateButton>
               </EditContainer>
             </RightContainer>
           </UserBottomContainer>

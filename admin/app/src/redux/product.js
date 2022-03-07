@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { adminRequest } from "./requestMethod";
+import { getDownloadURL } from 'firebase/storage';
 
 const productSlice = createSlice({
   name: "product",
@@ -53,6 +54,19 @@ const productSlice = createSlice({
       state.fetching = false;
       state.fail = true;
     },
+
+    addProduct: (state) => {
+      state.fetching = true;
+    },
+    addProductSuccess: (state, action) => {
+      state.fetching = false;
+      state.success = true;
+      state.products.push(action.payload);
+    },
+    addProductFail: (state) => {
+      state.fetching = false;
+      state.fail = true;
+    },
   },
 });
 
@@ -72,8 +86,9 @@ export const getProductFunc = async (dispatch) => {
 export const deleteProductFunc = async (dispatch, _id) => {
   dispatch(deleteProduct());
   try {
-    // const res = await adminRequest.delete(`/product/${_id}`);
+    const res = await adminRequest.delete(`/product/${_id}`);
     dispatch(deleteProductSuccess(_id));
+    alert("Product Delete Successful");
   } catch (err) {
     dispatch(deleteProductFail());
     console.log("Something wrong with deleteing product: ", err);
@@ -100,6 +115,30 @@ export const updateProductFunc = async (dispatch, navigate, _id, productName, pr
   }
 };
 
+//Call to backend routes to create a products.
+export const createProductFunc = async (dispatch, navigate, name, description, downloadURL, category, size, color, price, inStock) => {
+  dispatch(addProduct());
+  try {
+    const res = await adminRequest.post('/product/', {
+        title: name,
+        description: description,
+        image: downloadURL,
+        category: category,
+        size: size,
+        color: color,
+        price: price,
+        inStock: inStock,
+    });
+    // console.log("update res.data: ", res.data)
+    dispatch(addProductSuccess(res.data));
+    alert("Product Create Successful");
+    navigate("/products");
+  } catch (err) {
+    dispatch(addProductFail());
+    console.log("Something wrong with creating product: ", err);
+  }
+};
+
 export const {
   getProduct,
   getProductSuccess,
@@ -110,5 +149,8 @@ export const {
   updateProduct,
   updateProductSuccess,
   updateProductFail,
+  addProduct,
+  addProductSuccess,
+  addProductFail,
 } = productSlice.actions;
 export default productSlice.reducer;

@@ -13,8 +13,6 @@ const {
  * Create a product
  */
 router.post("/", verifyTokenAndAdmin, async (req, res) => {
-  //Take every in the body, assuming no mistake made.
-  //Can be modify later to check not nulls.
   const newProduct = new Product(req.body);
 
   try {

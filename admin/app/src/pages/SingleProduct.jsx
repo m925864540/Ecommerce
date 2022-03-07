@@ -157,6 +157,7 @@ const DashBoardTitle = styled.h1`
   align-items: center;
 `;
 const SingleProduct = () => {
+
   const location = useLocation();
   const productID = location.pathname.split("/")[2];
   //Retrieve the product with the ID.
@@ -175,6 +176,8 @@ const [inStock, setInStock] = useState(true);
 
 const dispatch = useDispatch();
 const navigate = useNavigate();
+
+//Updating a product info.
 const handleUpdate = () =>{
   updateProductFunc(dispatch, navigate, productID, productName, productDescription, productPrice, inStock);
 }

@@ -6,8 +6,8 @@ import PersonIcon from "@material-ui/icons/Person";
 import LabelIcon from "@material-ui/icons/Label";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import Chart from "./Chart";
-import { data } from "../chartData.js";
 import { adminRequest } from "../redux/requestMethod";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -77,7 +77,6 @@ const Text = styled.p`
 // `;
 
 const Mainbar = () => {
-  
   //Use for Chart
   const MONTHS = useMemo(
     () => [
@@ -107,7 +106,7 @@ const Mainbar = () => {
         res.data.map((item) => {
           setUserStat((prev) => [
             ...prev,
-            { name: MONTHS[item._id - 1], "user": item.total },
+            { name: MONTHS[item._id - 1], user: item.total },
           ]);
         });
       } catch (err) {
@@ -132,7 +131,6 @@ const Mainbar = () => {
     getTotalProduct();
   });
 
-  
   //Get total users
   const [totalUser, setTotalUser] = useState("");
   useEffect(() => {
@@ -153,7 +151,7 @@ const Mainbar = () => {
     const getTotalSales = async () => {
       try {
         const res = await adminRequest.get("/order/allIncome");
-        setTotalSales((res.data).toFixed(2));
+        setTotalSales(res.data.toFixed(2));
       } catch (err) {
         console.log(err);
       }
@@ -166,36 +164,44 @@ const Mainbar = () => {
       <DashBoardTitle>Admin Dashboard</DashBoardTitle>
       <Main>
         <InfoWrapper>
-          <InfoContainer>
-            <Info>
-              <Title>Products</Title>
-              <IconAndText>
-                <LabelIcon />
-                <Text>{totalProduct}</Text>
-              </IconAndText>
-            </Info>
-          </InfoContainer>
-          <InfoContainer>
-            <Info>
-              <Title>Sales</Title>
-              <IconAndText>
-                <AttachMoneyIcon />
-                <Text>${totalSales}</Text>
-              </IconAndText>
-            </Info>
-          </InfoContainer>
-          <InfoContainer>
-            <Info>
-              <Title>Users</Title>
-              <IconAndText>
-                <PersonIcon />
-                <Text>{totalUser}</Text>
-              </IconAndText>
-            </Info>
-          </InfoContainer>
+          <Link to={"/products"} style={{ textDecoration: "none", color: "inherit" }}>
+            <InfoContainer>
+              <Info>
+                <Title>Products</Title>
+                <IconAndText>
+                  <LabelIcon />
+                  <Text>{totalProduct}</Text>
+                </IconAndText>
+              </Info>
+            </InfoContainer>
+          </Link>
+
+          <Link to={"/sales"} style={{ textDecoration: "none", color: "inherit" }}>
+            <InfoContainer>
+              <Info>
+                <Title>Sales</Title>
+                <IconAndText>
+                  <AttachMoneyIcon />
+                  <Text>${totalSales}</Text>
+                </IconAndText>
+              </Info>
+            </InfoContainer>
+          </Link>
+
+          <Link to={"/user"} style={{ textDecoration: "none", color: "inherit" }}>
+            <InfoContainer>
+              <Info>
+                <Title>Users</Title>
+                <IconAndText>
+                  <PersonIcon />
+                  <Text>{totalUser}</Text>
+                </IconAndText>
+              </Info>
+            </InfoContainer>
+          </Link>
         </InfoWrapper>
       </Main>
-      
+
       <Chart chartData={userStat} chartTitle="User Statistics" dataKey="user" />
     </Container>
   );

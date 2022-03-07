@@ -128,7 +128,7 @@ router.get("/income", verifyTokenAndAdmin, async (req, res) => {
   
   try {
     const allOrders = await Order.find();
-    console.log(allOrders)
+    // console.log(allOrders)
     let total=0;
     for(let i=0; i< allOrders.length; i++){
       total += allOrders[i].amount;

@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import ShowChartIcon from "@material-ui/icons/ShowChart";
 import PersonIcon from "@material-ui/icons/Person";
 import LabelIcon from "@material-ui/icons/Label";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import Mainbar from "./Mainbar";
-import { Link } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutFunc } from "../redux/user";
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const SideWrapper = styled.div`
 const MenuText = styled.h1`
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   color: #6c6c6c;
 `;
 const MenuList = styled.ul`
@@ -39,7 +39,7 @@ const MenuItem = styled.li`
   display: flex;
   align-items: center;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 20px;
   font-size: 18px;
   font-weight: 500;
   color: #3e3e3e;
@@ -59,6 +59,14 @@ const Hr = styled.hr`
   margin-top: 10px;
 `;
 const Sidebar = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logout = (e)=>{
+    e.preventDefault();
+    logoutFunc(dispatch, navigate);
+  }
   return (
     <Container>
       <Side>
@@ -73,14 +81,7 @@ const Sidebar = () => {
                 Dashboard
               </MenuItem>
             </Link>
-            <Link to={"/analyst"} style={{ textDecoration: "none" }}>
-            <MenuItem id={1}>
-              <ShowChartIcon
-                style={{ marginRight: "10px", fontSize: "18px" }}
-              />
-              Analyst
-            </MenuItem>
-            </Link>
+            
             <Link to={"/user"} style={{ textDecoration: "none" }}>
               <MenuItem path>
                 <PersonIcon style={{ marginRight: "10px", fontSize: "18px" }} />
@@ -93,12 +94,16 @@ const Sidebar = () => {
                 Products
               </MenuItem>
             </Link>
+    
             <Link to={"/transaction"} style={{ textDecoration: "none" }}>
               <MenuItem>
-                <AttachMoneyIcon style={{ marginRight: "10px", fontSize: "18px" }} />
+                <AccountBalanceIcon
+                  style={{ marginRight: "10px", fontSize: "18px" }}
+                />
                 Transaction
               </MenuItem>
             </Link>
+
             <Link to={"/sales"} style={{ textDecoration: "none" }}>
               <MenuItem>
                 <AccountBalanceIcon
@@ -110,15 +115,16 @@ const Sidebar = () => {
           </MenuList>
           <Hr />
 
-          <MenuText>Notification</MenuText>
+           <MenuText>Logout</MenuText>
           <MenuList>
-            <MenuItem>
-              <DashboardIcon
+            <MenuItem onClick={logout}>
+              <LogoutIcon
                 style={{ marginRight: "10px", fontSize: "18px" }}
               />{" "}
-              Mail
+              Logout
             </MenuItem>
-            <MenuItem>
+          </MenuList>
+            {/* <MenuItem>
               <ShowChartIcon
                 style={{ marginRight: "10px", fontSize: "18px" }}
               />{" "}
@@ -146,7 +152,7 @@ const Sidebar = () => {
               Report
             </MenuItem>
           </MenuList>
-          <Hr />
+          <Hr /> */}
         </SideWrapper>
       </Side>
 
