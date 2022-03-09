@@ -52,7 +52,7 @@ const Checkout = () => {
             amount: 1999,   //fake amount;
           }
         );
-        console.log("res.data is:",res.data);
+        // console.log("res.data is:",res.data);
       } catch (err) {
         console.log(err);
       }

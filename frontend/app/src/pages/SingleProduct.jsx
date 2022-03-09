@@ -6,17 +6,27 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobileDevice } from "../responsive";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { addProduct } from "../redux/shoppingCart";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const Container = styled.div``;
+const BackButton = styled.div`
+  width: 40px;
+  height: 30px;
+  margin: 10px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+`;
 const Wrapper = styled.div`
   display: flex;
   padding: 30px;
   ${mobileDevice({ padding: "10px", flexDirection: "column" })};
 `;
+
 const ProductImage = styled.div`
   flex: 1;
 `;
@@ -27,7 +37,6 @@ const Image = styled.img`
 `;
 const ProductInfo = styled.div`
   flex: 1;
-
 `;
 const Title = styled.h1`
   font-weight: 400;
@@ -107,68 +116,71 @@ const ItemCount = styled.h2`
   border-radius: 20%;
   font-size: 20px;
 `;
-const AddToCartButton= styled.button`
-    margin: 20px 0px 0px 0px;
-    display: flex;
-    padding: 5px 25px;
-    background-color: #696969;
-    color: white;
-    border: none;
-    outline: none;
-    cursor: pointer;
+const AddToCartButton = styled.button`
+  margin: 20px 0px 0px 0px;
+  display: flex;
+  padding: 5px 25px;
+  background-color: #696969;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
 
-    &:hover {
-        background-color: #3B3C36;
+  &:hover {
+    background-color: #3b3c36;
   }
-`
-
+`;
 
 const SingleProduct = () => {
-
   const location = useLocation();
   const productID = location.pathname.split("/")[2]; //Takes the product ID.
 
   const [product, setProduct] = useState({});
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
-  const [itemCount, setItemCount]= useState(1);
-  const dispatch= useDispatch();
+  const [itemCount, setItemCount] = useState(1);
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
-    const getProduct = async ()=>{
+  const navigate = useNavigate();
 
-      try{
-        const res = await axios.get(`http://localhost:8080/api/product/${productID}`)
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8080/api/product/${productID}`
+        );
         setProduct(res.data);
-      }catch(e){
-        console.log("Single Product Error: ", e)
+      } catch (e) {
+        console.log("Single Product Error: ", e);
       }
-    }
+    };
     getProduct();
+  }, [productID]);
 
-  },[productID])
-
-  const handleItemCount = (e)=>{
-    if(e==="remove"){
-      if(itemCount===1){
+  const handleItemCount = (e) => {
+    if (e === "remove") {
+      if (itemCount === 1) {
         return;
         // setItemCount(0);
-      }else{
-        setItemCount(itemCount-1);
+      } else {
+        setItemCount(itemCount - 1);
       }
-    }else{
-      setItemCount(itemCount+1);
+    } else {
+      setItemCount(itemCount + 1);
     }
-  }
+  };
 
-  const hanldeAddToCart =()=>{
-    dispatch(addProduct({...product, itemCount, color, size}));
-  }
+  const hanldeAddToCart = () => {
+    dispatch(addProduct({ ...product, itemCount, color, size }));
+  };
 
   return (
     <Container>
       <Navbar />
       <Announcement />
+      <BackButton>
+          <ArrowBackIcon onClick={() => navigate(-1)} />
+      </BackButton>
       <Wrapper>
         <ProductImage>
           <Image src={product.image} />
@@ -179,36 +191,48 @@ const SingleProduct = () => {
           <Price>$ {product.price}</Price>
           <ColorContainer name="color">
             <ColorText>Color:</ColorText>
-            {product.color?.map((color)=>(
-              <Color color={color} key={color} onClick={()=>setColor(color)} />
+            {product.color?.map((color) => (
+              <Color
+                color={color}
+                key={color}
+                onClick={() => setColor(color)}
+              />
             ))}
           </ColorContainer>
 
           <SizeAndItemWrapper>
             <SizeContainer>
               <SizeText>Size:</SizeText>
-              <SizeSelect name="size" onChange={(e)=>{setSize(e.target.value)}} >
-                <SizeOption disabled selected>
+              <SizeSelect
+                name="size"
+                onChange={(e) => {
+                  setSize(e.target.value);
+                }}
+              >
+                <SizeOption disabled defaultValue={null}>
                   Size
                 </SizeOption>
-                {product.size?.map((size)=>(
-                  <SizeOption key={size}>{size}</SizeOption>
+                {product.size?.map((size) => (
+                  <SizeOption value={size} key={size}>
+                    {" "}
+                    {size}
+                  </SizeOption>
                 ))}
               </SizeSelect>
             </SizeContainer>
 
             <ButtonContainer>
               <Button>
-                <Remove onClick={()=>handleItemCount("remove")}/>
+                <Remove onClick={() => handleItemCount("remove")} />
               </Button>
               <ItemCount>{itemCount}</ItemCount>
               <Button>
-                <Add onClick={()=>handleItemCount("add")}/>
+                <Add onClick={() => handleItemCount("add")} />
               </Button>
             </ButtonContainer>
           </SizeAndItemWrapper>
 
-          <AddToCartButton  onClick={hanldeAddToCart}>
+          <AddToCartButton onClick={hanldeAddToCart}>
             <AddShoppingCart />
           </AddToCartButton>
         </ProductInfo>

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userRequest } from "../redux/requestMethod";
 import styled from "styled-components";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { Link } from "react-router-dom";
+import { clearCart } from "../redux/shoppingCart";
 
 const Container = styled.div`
   width: 100vw;
@@ -62,8 +63,11 @@ const Success = () => {
 
   const [orderID, setOrderID] = useState("");
 
+  const dispatch = useDispatch();
   //Post an order
   useEffect(() => {
+
+
     const makeOrder = async () => {
       try {
         const res = await userRequest.post("/order", {
@@ -78,13 +82,16 @@ const Success = () => {
           address: stripeData.billing_details.address,
         });
         setOrderID(res.data._id);
-        // console.log("res is ",res)
+        
+        //Order is made, clear the user cart
+        dispatch(clearCart());
       } catch (err) {
         console.log("Error in makeOrder: ", err);
       }
     };
     stripeData && makeOrder();
-  }, [stripeData, allProducts, currentUser]);
+
+  }, [stripeData, currentUser]);
 
   return (
     <Container>

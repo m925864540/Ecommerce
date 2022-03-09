@@ -10,6 +10,7 @@ import {
   YouTube,
 } from "@material-ui/icons";
 import { mobileDevice } from "../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -127,12 +128,12 @@ const Footer = () => {
         <ResourceContainer>
           <ResourceTitle>Useful Links</ResourceTitle>
           <ResourceList>
-            <ResourceItem>Man</ResourceItem>
-            <ResourceItem>Home</ResourceItem>
-            <ResourceItem>Woman</ResourceItem>
+            <ResourceItem><Link to={"/products/man"} style={{ textDecoration: "none", color: "rgba(255, 255, 255, 0.6)" }}>Man</Link></ResourceItem>
+            <ResourceItem><Link to={"/"} style={{ textDecoration: "none", color: "rgba(255, 255, 255, 0.6)" }} >Home</Link></ResourceItem>
+            <ResourceItem><Link to={"/products/women"} style={{ textDecoration: "none", color: "rgba(255, 255, 255, 0.6)"}} >Women</Link></ResourceItem>
+            <ResourceItem><Link to={"/cart"} style={{ textDecoration: "none", color: "rgba(255, 255, 255, 0.6)"}} >Cart</Link></ResourceItem>
+            <ResourceItem><Link to={"/products/products"} style={{ textDecoration: "none", color: "rgba(255, 255, 255, 0.6)" }} >Collection</Link></ResourceItem>
             <ResourceItem>Account</ResourceItem>
-            <ResourceItem>Collection</ResourceItem>
-            <ResourceItem>Cart</ResourceItem>
             <ResourceItem>Media</ResourceItem>
             <ResourceItem>Terms</ResourceItem>
           </ResourceList>
@@ -166,14 +167,14 @@ const Footer = () => {
         <Title>Contact Us</Title>
         <ContactContainer>
           <Contact>
-            <Room style={{ marginRight: "10px" }} /> 479 Jast Springs,
-            Spencertown Bilzen 68160
+            <Room style={{ marginRight: "10px" }} /> 123 Street,
+            State, USA 12345
           </Contact>
           <Contact>
-            <ContactPhone style={{ marginRight: "10px" }} /> (629) 586-4191
+            <ContactPhone style={{ marginRight: "10px" }} /> (123) 456-7890
           </Contact>
           <Contact>
-            <EmailOutlined style={{ marginRight: "10px" }} /> Mike@Gmail.com
+            <EmailOutlined style={{ marginRight: "10px" }} /> Minghaolin11@Gmail.com
           </Contact>
         </ContactContainer>
       </Right>

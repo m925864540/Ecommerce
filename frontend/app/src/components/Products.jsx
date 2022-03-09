@@ -21,7 +21,8 @@ const Products = ({ category, colorAndSizeFilter, sortOptionFilter }) => {
     const getAllProducts = async () => {
       try {
         const res = await axios.get(
-          category
+
+          (category && (category != "products"))
             ? `http://localhost:8080/api/product?category=${category}`  //Get products based on category.
             : "http://localhost:8080/api/product"                       //Get all products.
         );

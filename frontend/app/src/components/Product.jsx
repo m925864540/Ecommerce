@@ -6,8 +6,10 @@ import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 
 const Info = styled.div`
-  ${'' /* left: 0;
-  top: 0; */}
+  ${
+    "" /* left: 0;
+  top: 0; */
+  }
   position: absolute;
   width: 100%;
   height: 100%;
@@ -16,7 +18,7 @@ const Info = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  ${'' /* flex-direction: column; */}
+  ${"" /* flex-direction: column; */}
   opacity: 0;
   transition: all 0.5s ease;
 `;
@@ -64,11 +66,11 @@ const Product = ({ item }) => {
       <Image src={item.image} />
 
       <Info>
-        <Icon>
-          <Link item={item} to={`/product/${item._id}`}>
+        <Link item={item} to={`/product/${item._id}`}>
+          <Icon>
             <SearchIcon />
-          </Link>
-        </Icon>
+          </Icon>
+        </Link>
 
         {/* <Icon>
             <FavoriteBorderOutlinedIcon />

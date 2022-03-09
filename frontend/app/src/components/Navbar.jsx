@@ -69,10 +69,12 @@ const MenuItem = styled.div`
   ${mobileDevice({ marginLeft: "none", paddingRight: "1px" })};
 `;
 const Navbar = () => {
-  //On navbar, only shows quantity on cart.
-  const cartQuantity = useSelector((state) => state.cart.quantity);
+  
   const { currentUser } = useSelector((state) => state.user);
   // console.log("Inside Navbar: ", currentUser);
+
+  //On navbar, only shows quantity on cart.
+  const cartQuantity = useSelector((state) => state.cart.quantity);
 
 
   const dispatch = useDispatch();
@@ -86,14 +88,14 @@ const Navbar = () => {
       <Wrapper>
         <Left>
           {/* <Language>EN</Language> */}
-          <SearchContainer>
+          {/* <SearchContainer>
             <Input placeholder="Search" />
             <Search style={{ color: "gray" }} />
-          </SearchContainer>
+          </SearchContainer> */}
         </Left>
         <Center>
           <Link key="toHome" style={{ textDecoration: "none", color: "black"}} to={"/"}>
-            <Logo>Logo</Logo>
+            <Logo>Shop</Logo>
           </Link>
         </Center>
         <Right>

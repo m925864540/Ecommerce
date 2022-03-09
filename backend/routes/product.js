@@ -27,7 +27,7 @@ router.post("/", verifyTokenAndAdmin, async (req, res) => {
  * Update a product
  */
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
       $set: req.body,
@@ -70,7 +70,7 @@ router.get("/", async (req, res) => {
   //req.query.'new' correspond to the name of the query in postman params. Ex: new=true
   const qNew = req.query.new;
   const qCategory = req.query.category;
-  console.log(qCategory);
+  // console.log(qCategory);
   try {
     let product;
     if (qNew) {

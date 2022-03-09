@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginFunc } from "../redux/user";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 //background: url("https://cdn.hipwallpaper.com/i/71/44/sLrHqS.jpg");
 const Container = styled.div`
@@ -64,41 +66,70 @@ const LinkContainer = styled.div`
   display: flex;
   margin-top: 20px;
 `;
-const Link = styled.a`
-    padding: 0 40px;
-    text-decoration: underline;
-    cursor: pointer;
-`;
+// const Link = styled.a`
+//     padding: 0 40px;
+//     text-decoration: underline;
+//     cursor: pointer;
+// `;
 const Errors = styled.span`
   color: red;
   padding-top: 5px;
-`
+`;
 export const Login = () => {
-  const [username, setUsername]= useState("");
-  const [password, setPassword]= useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const fail = useSelector((state)=>state.user.fail);
+  const fail = useSelector((state) => state.user.fail);
 
   //Call to user redux to login an user.
-  const handleLogin= (e)=>{
+  const handleLogin = (e) => {
     e.preventDefault();
-    loginFunc(dispatch, navigate, {username, password})
-  }
+    loginFunc(dispatch, navigate, { username, password });
+  };
 
   return (
     <Container>
       <Wrapper>
+        <Link
+          to={"/"}
+          style={{
+            textDecoration: "underline",
+            color: "black",
+            marginBottom: "5px",
+            marginRight: "250px",
+            
+          }}
+        >
+          Store
+        </Link>
         <Title>Sign In</Title>
         <Form>
-          <Input placeholder="Username" onChange={e=> setUsername(e.target.value)}></Input>
-          <Input type="password" placeholder="Password" onChange={e=> setPassword(e.target.value)}></Input>
+          <Input
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+          ></Input>
+          <Input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          ></Input>
           <Button onClick={handleLogin}>Sign In</Button>
         </Form>
         {fail && <Errors>Something went wrong.</Errors>}
         <LinkContainer>
-          <Link>Forgot Password?</Link>
-          <Link>Sign Up</Link>
+          {/* <Link to={"/login"} style={{padding: "0 40px", textDecoration: "underline", cursor: "pointer", color: "black"}}>Forgot Password?</Link> */}
+          <Link
+            to={"/register"}
+            style={{
+              padding: "0 40px",
+              textDecoration: "underline",
+              cursor: "pointer",
+              color: "black",
+            }}
+          >
+            Sign Up
+          </Link>
         </LinkContainer>
       </Wrapper>
     </Container>

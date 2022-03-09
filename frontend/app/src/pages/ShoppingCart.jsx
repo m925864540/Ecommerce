@@ -6,12 +6,12 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobileDevice } from "../responsive";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import { userRequest } from "../redux/requestMethod";
-// import { useHistory } from "react-router-dom";
+import { decreaseProductInCart, finalize, increaseProductInCart } from "../redux/shoppingCart";
+import { Link } from "react-router-dom";
 
 const Container = styled.div``;
 const Wrapper = styled.div``;
@@ -87,7 +87,7 @@ const Color = styled.div`
   margin-right: 5px;
   border-radius: 30%;
 `;
-const ProductSize = styled.span`
+const ProductSpecs = styled.span`
   margin: 5px 20px;
 `;
 const ProductTexts2 = styled.div`
@@ -193,16 +193,19 @@ const Hr = styled.hr`
 const ShoppingCart = () => {
   //All prduct user added to cart.
   const product = useSelector((state) => state.cart);
+  const tax = (product.totalPrice * 0.07).toFixed(2);
+
+  //Get the total with tax added, and finalize it.
+  const dispatch = useDispatch();
+  dispatch(finalize());
 
   const stripePKey = process.env.REACT_APP_STRIPE_PKEY;
   const [stripeToken, setStipeToken] = useState(null);
   const navigate = useNavigate();
-  // const history = useHistory();
 
   const onToken = (token) => {
     setStipeToken(token);
   };
-  // console.log("Stripe token is: ", stripeToken)
 
   //Call to payment route when the payment is made by client.
   useEffect(() => {
@@ -211,14 +214,12 @@ const ShoppingCart = () => {
         //Send to server, and the stripe.charges at server will return us with stripeRes.
         //res therefore equals stripeRes in server.
         //res will contain all the info we need, such as id, address.
-        const res = await userRequest.post(
-          "/checkout/payment",
-          {
-            tokenId: stripeToken.id,
-            amount: product.totalPrice * 100,
-          }
-        );
-        console.log("res.data is:",res.data);
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: product.finalPrice * 100,
+        });
+        // console.log("res.data is:",res.data);
+
         navigate("/payment/success", {
           state: { stripeData: res.data, allProducts: product }, //All user added product send.
         });
@@ -229,6 +230,16 @@ const ShoppingCart = () => {
     stripeToken && makeRequest();
   }, [stripeToken]);
 
+  //Handle decreasing/removing product in shopping cart
+  const handleRemove = (id) => {
+    dispatch(decreaseProductInCart(id));
+  };
+  //Handle increasing product unit in shopping cart
+  const handleAdd = (id) => {
+    dispatch(increaseProductInCart(id))
+  };
+
+  // console.log(product);
   return (
     <Container>
       <Navbar />
@@ -239,14 +250,18 @@ const ShoppingCart = () => {
         </TopBag>
 
         <ButtonContainer>
-          <ContinueShoppingButton>CONTINUE SHOPPING</ContinueShoppingButton>
+          <Link to={"/"} style={{ textDecoration: "none" }}>
+            <ContinueShoppingButton>CONTINUE SHOPPING</ContinueShoppingButton>
+          </Link>
         </ButtonContainer>
         <MainCart>
           <LeftCartContainer>
             <Hr />
             {product.products.map((item) => (
-              <ProductInfoContainer>
-                <Image src={item.image} />
+              <ProductInfoContainer key={item._id}>
+                <Link to={`/product/${item._id}`}>
+                  <Image src={item.image} />
+                </Link>
                 <ProductTexts>
                   <ProductName>
                     <b>{item.title}</b>
@@ -256,24 +271,27 @@ const ShoppingCart = () => {
                     <ProductColor>Color:</ProductColor>
                     <Color color={item.color} />
                   </ColorContainer>
-                  <ProductSize>Size: {item.size}</ProductSize>
+                  <ProductSpecs>Size: {item.size}</ProductSpecs>
+                  <ProductSpecs>Unit Price: ${item.price}</ProductSpecs>
                 </ProductTexts>
                 <ProductTexts2>
                   <ProductCountContainer>
-                    <Button>
+                    <Button onClick={() => handleRemove(item._id)}>
                       <Remove />
                     </Button>
                     <ProductCount>{item.itemCount}</ProductCount>
-                    <Button>
+                    <Button onClick={() => handleAdd(item._id)}>
                       <Add />
                     </Button>
                   </ProductCountContainer>
-                  <ProductPrice>$ {item.price * item.itemCount}</ProductPrice>
+                  <ProductPrice>$ {(item.price * item.itemCount).toFixed(2)}</ProductPrice>
                 </ProductTexts2>
               </ProductInfoContainer>
             ))}
+            ;
             <Hr />
           </LeftCartContainer>
+
           <RightCartContainer>
             <OrderInfoContainer>
               <OrderTitle>Order Summary</OrderTitle>
@@ -292,13 +310,13 @@ const ShoppingCart = () => {
                 </Summary>
                 <Summary>
                   <SummaryText>Tax:</SummaryText>
-                  <SummaryPrice> $ 3.27</SummaryPrice>
+                  <SummaryPrice> $ {tax}</SummaryPrice>
                 </Summary>
                 <Summary>
                   <SummaryText total="total">Total</SummaryText>
                   <SummaryPrice total="total">
                     {" "}
-                    $ {product.totalPrice.toFixed(2)}
+                    $ {product.finalPrice}
                   </SummaryPrice>
                 </Summary>
               </OrderSummaryContainer>
@@ -308,7 +326,7 @@ const ShoppingCart = () => {
                   description="Test checkout"
                   billingAddress
                   shippingAddress
-                  amount={product.totalPrice * 100}
+                  amount={product.finalPrice * 100}
                   token={onToken}
                   stripeKey={stripePKey}
                 >

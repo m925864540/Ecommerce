@@ -6,9 +6,18 @@ import Products from "./../components/Products";
 import Newsletter from "./../components/Newsletter";
 import Footer from "./../components/Footer";
 import { mobileDevice } from "../responsive";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const Container = styled.div``;
+const BackButton = styled.div`
+  width: 40px;
+  height: 30px;
+  margin: 10px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+`;
 const ProductTitle = styled.h1`
   margin-top: 10px;
   margin-left: 20px;
@@ -43,6 +52,8 @@ const ProductList = () => {
   const [colorAndSizeFilter, setColorAndSizeFilter] = useState({});
   const [sortOptionFilter, setSortOptionFilter] = useState("Newest"); //default sort by newest item.
 
+  const navigate = useNavigate();
+
   const handleFilter = (e) => {
     const value = e.target.value;
     setColorAndSizeFilter({
@@ -59,6 +70,9 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Announcement />
+      <BackButton>
+        <ArrowBackIcon onClick={() => navigate(-1)} />
+      </BackButton>
       <ProductTitle>{category}</ProductTitle>
       <FilterContainer>
         <Filter>

@@ -93,7 +93,6 @@ const Slider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Description>{item.desc}</Description>
-              <Button>SHOP NOW</Button>
             </InfoContainer>
           </Slide>
         ))}
