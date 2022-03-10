@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 

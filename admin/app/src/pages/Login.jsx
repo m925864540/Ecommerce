@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { loginFunc } from "../redux/user";
 
 //background: url("https://cdn.hipwallpaper.com/i/71/44/sLrHqS.jpg");
@@ -60,19 +60,19 @@ const Button = styled.button`
     background-color: #9d811c;
   }
 `;
-const LinkContainer = styled.div`
-  display: flex;
-  margin-top: 20px;
-`;
-const Link = styled.a`
-    padding: 0 40px;
-    text-decoration: underline;
-    cursor: pointer;
-`;
-const Errors = styled.span`
-  color: red;
-  padding-top: 5px;
-`
+// const LinkContainer = styled.div`
+//   display: flex;
+//   margin-top: 20px;
+// `;
+// const Link = styled.a`
+//     padding: 0 40px;
+//     text-decoration: underline;
+//     cursor: pointer;
+// `;
+// const Errors = styled.span`
+//   color: red;
+//   padding-top: 5px;
+// `
 export const Login = () => {
   const [username, setUsername]= useState("");
   const [password, setPassword]= useState("");

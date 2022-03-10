@@ -1,9 +1,7 @@
-import Navbar from "./components/Navbar";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import User from "./pages/User";
@@ -15,6 +13,8 @@ import SingleProduct from "./pages/SingleProduct";
 import NewProduct from "./pages/NewProduct";
 import { Login } from "./pages/Login";
 import { useSelector } from "react-redux";
+import Transaction from "./pages/Transaction";
+import SingleTransaction from "./pages/SingleTransaction";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -37,8 +37,8 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<SingleProduct />} />
             <Route path="/newProduct" element={<NewProduct />} />
-            <Route path="/sales" element={<Analyst />} />
-            <Route path="/transaction" element={<Analyst />} />
+            <Route path="/transaction" element={<Transaction />} />
+            <Route path="/transaction/:id" element={<SingleTransaction />} />
           </>
         )}
       </Routes>

@@ -6,6 +6,7 @@
  import userReducer from './user';
  import productReducer from './product';
  import customerReducer from './customer';
+ import orderReducer from './orders';
  import {
      persistStore,
      persistReducer,
@@ -25,7 +26,7 @@
  }  
  
  //Use combineReducer to persist both user and shopping cart.
- const rootReducer= combineReducers({user: userReducer, product: productReducer, customer: customerReducer})
+ const rootReducer= combineReducers({user: userReducer, product: productReducer, customer: customerReducer, order: orderReducer})
  //Reducer we want to persist.
  const persistedReducer = persistReducer(persistConfig, rootReducer)
  

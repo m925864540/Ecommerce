@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import ShowChartIcon from "@material-ui/icons/ShowChart";
+// import DashboardIcon from "@material-ui/icons/Dashboard";
+// import ShowChartIcon from "@material-ui/icons/ShowChart";
 import PersonIcon from "@material-ui/icons/Person";
 import LabelIcon from "@material-ui/icons/Label";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
@@ -176,7 +176,7 @@ const Mainbar = () => {
             </InfoContainer>
           </Link>
 
-          <Link to={"/sales"} style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to={"/transaction"} style={{ textDecoration: "none", color: "inherit" }}>
             <InfoContainer>
               <Info>
                 <Title>Sales</Title>

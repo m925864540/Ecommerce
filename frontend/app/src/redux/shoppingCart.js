@@ -20,7 +20,7 @@ const shoppingCartSlice = createSlice({
       const index = state.products.findIndex((i)=> (i._id === action.payload));
 
       //Remove the item if its itemCount is 1,
-      if(state.products[index].itemCount == 1){
+      if(state.products[index].itemCount === 1){
         state.totalPrice -= state.products[index].price
         state.products.splice(state.products[index],1);
         state.quantity -= 1;

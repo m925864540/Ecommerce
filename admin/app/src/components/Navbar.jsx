@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { mobileDevice } from "../responsive";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
-import SettingsIcon from "@material-ui/icons/Settings";
-import { logoutFunc } from "../redux/user";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 60px;

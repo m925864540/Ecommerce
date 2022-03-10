@@ -60,8 +60,7 @@ const Checkout = () => {
     stripeToken && makeRequest();
   }, [stripeToken]);
 
-  const STRIPE_P_KEY =
-    "pk_test_51KN5XjHDd678D5d9D9WEMMjx8PrN2YIctWlRImYQ4leSyoqf7y8xweQeVrxM3siXa251CUDic6Cp1ndwdZQoyxmh00nbYLmyYb";
+  const STRIPE_P_KEY = "pk_test_51KN5XjHDd678D5d9D9WEMMjx8PrN2YIctWlRImYQ4leSyoqf7y8xweQeVrxM3siXa251CUDic6Cp1ndwdZQoyxmh00nbYLmyYb";
 
   return (
     <Container>

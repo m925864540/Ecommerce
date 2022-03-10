@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Search } from "@material-ui/icons";
-//import IconButton from "@material-ui/core/IconButton";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Badge } from "@material-ui/core";
 import { mobileDevice } from "../responsive";
@@ -26,23 +24,6 @@ const Left = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
-`;
-const Language = styled.span`
-  cursor: pointer;
-  ${mobileDevice({ display: "none" })};
-`;
-const SearchContainer = styled.div`
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 2px;
-`;
-const Input = styled.input`
-  border: none;
-  outline: none;
-  background-color: LightGray;
-  ${mobileDevice({ width: "45px" })};
 `;
 
 const Center = styled.div`

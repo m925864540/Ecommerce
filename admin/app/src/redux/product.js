@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { adminRequest } from "./requestMethod";
-import { getDownloadURL } from 'firebase/storage';
 
 const productSlice = createSlice({
   name: "product",

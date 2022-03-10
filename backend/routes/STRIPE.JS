@@ -1,7 +1,7 @@
 const router = require("express").Router();
 module.exports = router;
-// const stripe = require("stripe")(process.env.STRIPE_KEY);
-const stripe = "sk_test_51KN5XjHDd678D5d95TL8MQhZ7VhhMdNYU3Ka31SwWWKDIH2T1BEbBhKbpx3ClLTYBqA3Y1BrCgOB2dW9urEahSLo00bViBk8xH";
+const stripe = require("stripe")("sk_test_51KN5XjHDd678D5d95TL8MQhZ7VhhMdNYU3Ka31SwWWKDIH2T1BEbBhKbpx3ClLTYBqA3Y1BrCgOB2dW9urEahSLo00bViBk8xH");
+// const stripe = "sk_test_51KN5XjHDd678D5d95TL8MQhZ7VhhMdNYU3Ka31SwWWKDIH2T1BEbBhKbpx3ClLTYBqA3Y1BrCgOB2dW9urEahSLo00bViBk8xH";
 router.post("/payment", (req, res) => {
     //Charges are identified by a unique, random ID.
     stripe.charges.create(

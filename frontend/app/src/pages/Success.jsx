@@ -91,7 +91,7 @@ const Success = () => {
     };
     stripeData && makeOrder();
 
-  }, [stripeData, currentUser]);
+  }, [stripeData, currentUser, allProducts.products, allProducts.totalPrice, dispatch]);
 
   return (
     <Container>

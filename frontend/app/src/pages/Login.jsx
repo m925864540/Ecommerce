@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginFunc } from "../redux/user";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 //background: url("https://cdn.hipwallpaper.com/i/71/44/sLrHqS.jpg");
 const Container = styled.div`

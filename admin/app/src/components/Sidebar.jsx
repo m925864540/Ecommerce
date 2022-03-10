@@ -104,14 +104,6 @@ const Sidebar = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/sales"} style={{ textDecoration: "none" }}>
-              <MenuItem>
-                <AccountBalanceIcon
-                  style={{ marginRight: "10px", fontSize: "18px" }}
-                />
-                Sales
-              </MenuItem>
-            </Link>
           </MenuList>
           <Hr />
 

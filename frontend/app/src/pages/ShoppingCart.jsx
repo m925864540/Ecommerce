@@ -198,8 +198,9 @@ const ShoppingCart = () => {
   //Get the total with tax added, and finalize it.
   const dispatch = useDispatch();
   dispatch(finalize());
+  
+  const stripePKey = "pk_test_51KN5XjHDd678D5d9D9WEMMjx8PrN2YIctWlRImYQ4leSyoqf7y8xweQeVrxM3siXa251CUDic6Cp1ndwdZQoyxmh00nbYLmyYb";
 
-  const stripePKey = process.env.REACT_APP_STRIPE_PKEY;
   const [stripeToken, setStipeToken] = useState(null);
   const navigate = useNavigate();
 
@@ -228,7 +229,7 @@ const ShoppingCart = () => {
       }
     };
     stripeToken && makeRequest();
-  }, [stripeToken]);
+  }, [stripeToken, navigate, product]);
 
   //Handle decreasing/removing product in shopping cart
   const handleRemove = (id) => {

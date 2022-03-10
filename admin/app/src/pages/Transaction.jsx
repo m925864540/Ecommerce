@@ -1,13 +1,14 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { deleteProductFunc, getProductFunc } from "../redux/product";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteOrderFunc, getOrderFunc } from "./../redux/orders";
+import { useNavigate } from 'react-router';
 
 const Container = styled.div``;
 const SideBySide = styled.div`
@@ -74,44 +75,33 @@ const Image = styled.img`
   width: 50px;
 `;
 
-const Products = () => {
-  //Getting all product from redux.
-  const products = useSelector((state) => state.product.products);
+const Transaction = () => {
+  //Get all transaction/order from redux
+  const orders = useSelector((state) => state.order.orders);
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
-    getProductFunc(dispatch);
+    getOrderFunc(dispatch);
   }, [dispatch]);
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 200 },
+    { field: "_id", headerName: "Order ID", width: 210 },
     {
-      field: "title",
-      headerName: "Product",
+      field: "user_ID",
+      headerName: "User ID",
+      width: 200,
+    },
+    {
+      field: "amount",
+      headerName: "Amount",
       width: 150,
     },
     {
-      field: "image",
-      headerName: "Image",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <ImageContainer>
-            <Image src={params.row.image} alt="product picture"></Image>
-          </ImageContainer>
-        );
+        field: "createdAt",
+        headerName: "Creation Time",
+        width: 200,
       },
-    },
-    {
-      field: "inStock",
-      headerName: "In Stock",
-      width: 150,
-    },
-    {
-      field: "price",
-      headerName: "Price",
-      width: 150,
-    },
     {
       field: "Action",
       headerName: "Action",
@@ -121,13 +111,13 @@ const Products = () => {
           <ButtonIconContainer>
             <Link
               style={{ textDecoration: "none" }}
-              to={"/product/" + params.row._id}
+              to={"/transaction/" + params.row._id}
             >
               <ButtonIcon>
                 <EditIcon />
               </ButtonIcon>
             </Link>
-            <ButtonIcon onClick={() => handleRemove(params.row._id)}>
+            <ButtonIcon onClick={() => handleCancel(params.row._id)}>
               <DeleteOutlineIcon />
             </ButtonIcon>
           </ButtonIconContainer>
@@ -136,8 +126,8 @@ const Products = () => {
     },
   ];
 
-  const handleRemove = (_id) => {
-    deleteProductFunc(dispatch, _id);
+  const handleCancel = (_id) => {
+    deleteOrderFunc(dispatch, navigate, _id);
   };
 
   return (
@@ -147,13 +137,10 @@ const Products = () => {
         <Sidebar />
         <Wrapper>
           <DashBoardTitle>
-            <Title>Product List</Title>
-            <Link to="/newProduct" style={{ textDecoration: "none" }}>
-              <CreateButton>Create Product</CreateButton>
-            </Link>
+            <Title>Transaction List</Title>
           </DashBoardTitle>
           <DataGrid
-            rows={products}
+            rows={orders}
             columns={columns}
             // rowsPerPageOptions={5}
             rowsPerPageOptions={[10]}
@@ -168,4 +155,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Transaction;
