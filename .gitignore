@@ -1,0 +1,7 @@
+/frontend/app/node_modules
+/frontend/app/.env
+
+/backend/node_modules
+/backend/.env
+
+/admin/app/node_modules
