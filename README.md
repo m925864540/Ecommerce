@@ -3,9 +3,9 @@
 ## Description
 - Ecommerce website build with Node.js and React.
 - Clone the repository.
-- Navigate to backend folder, type `npm install` to install dependencies, then type `npm run dev` to start the app.
-- Navigate to frontend app folder, type `npm install` to install dependencies, then type `npm start` to start the Shop App.
-- Navigate to admin app folder, type `npm install` to install dependencies, then type `npm start` to start the Admin App.
+- Navigate to backend folder, type `npm install` to install dependencies, then type `npm run dev` to start the server app.
+- Navigate to frontend app folder, type `npm install` to install dependencies, then type `npm start` to start the shop App.
+- Navigate to admin app folder, type `npm install` to install dependencies, then type `npm start` to start the admin App.
 
 ## Feature
 - Users able to browse page, add products to cart and place an order with stripe test checkout.
