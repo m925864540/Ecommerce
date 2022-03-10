@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
 const port = 8080;
-const env = require("dotenv").config();
+const env = require("dotenv").config({ path: '../.env' });
 const routes = require('./routes/index')
 const cors= require('cors')
-
 const mongoose = require("mongoose"); //Connect to mongo server
+
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
