@@ -56,7 +56,7 @@ const Navbar = () => {
       <Wrapper>
         <Left>
           <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
-            <Logo>Logo</Logo>
+            <Logo>Shop</Logo>
           </Link>
         </Left>
 
