@@ -16,7 +16,7 @@ router.put("/:id", verifyTokenAndAuth, async (req, res) => {
     req.body.password = CryptoJS.AES.encrypt(
       //Encrypt user password using crypto-js
       password,
-      process.env.PASSWORD_SECRECT
+      "abc123" //process.env.PASSWORD_SECRECT
     ).toString();
   }
 

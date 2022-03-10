@@ -9,7 +9,9 @@ const verifyToken= (req, res, next)=>{
         const token = authHeader.split(" ")[1]
         // const decoded = jwt.verify(token, secret);
         // console.log(decoded.foo);                    //These two line are equivalent to code below.
-        jwt.verify(token, process.env.JWT_SECRETKEY, (err,user)=>{  //In the callback, we can name the second parameter anything, so 'user' contains what is define in jwt.sign, which is id and idAdmin.
+
+        //process.env.JWT_SECRETKEY
+        jwt.verify(token, "abc123", (err,user)=>{  //In the callback, we can name the second parameter anything, so 'user' contains what is define in jwt.sign, which is id and idAdmin.
             if(err){
                 return res.status(403).json("Token is not valid")   //403- has token but not valid.
             }
