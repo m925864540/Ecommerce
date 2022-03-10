@@ -9,7 +9,7 @@
 
 ## Feature
 - Users able to browse page, add products to cart and place an order with stripe test checkout.
-- Admin able able to modify all products, users, and view related informations.
+- Admin able to modify all products, users, and view related informations.
 
 `Shop Page`
 ![Capture1](https://user-images.githubusercontent.com/72901256/157584255-3ddc854c-648f-48fd-ab50-29ef9e941e3e.PNG)
