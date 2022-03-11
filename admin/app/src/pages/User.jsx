@@ -7,7 +7,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCustomerFunc, getCustomerFunc } from "../redux/customer";
+import customer, {
+  deleteCustomerFunc,
+  getCustomerFunc,
+} from "../redux/customer";
 
 const ButtonIconContainer = styled.div`
   display: flex;
@@ -56,16 +59,15 @@ const DashBoardTitle = styled.div`
 `;
 
 const User = () => {
-
   //Getting all customers from redux.
   const customers = useSelector((state) => state.customer.customers);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     getCustomerFunc(dispatch);
   }, []);
 
-  // console.log("Customers: ",customers)
+  console.log("Customers: ", customers);
 
   const columns = [
     { field: "_id", headerName: "ID", width: 220 },
@@ -83,7 +85,8 @@ const User = () => {
       field: "lastName",
       headerName: "Last Name",
       width: 150,
-    },    {
+    },
+    {
       field: "email",
       headerName: "Email",
       width: 200,
@@ -118,7 +121,9 @@ const User = () => {
   ];
 
   const handleRemove = (_id) => {
-    deleteCustomerFunc(dispatch, _id);
+    customers.isAdmin === true
+      ? deleteCustomerFunc(dispatch, _id)
+      : alert("Admin Delete Fail.");
   };
 
   return (
@@ -126,7 +131,7 @@ const User = () => {
       <Navbar />
       <div style={{ display: "flex" }}>
         <Sidebar />
-        <div style={{ width: "85vw"}}>
+        <div style={{ width: "85vw" }}>
           <DashBoardTitle>
             <Title>User List</Title>
             <Link to="/newUser" style={{ textDecoration: "none" }}>
