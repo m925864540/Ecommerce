@@ -3,13 +3,13 @@
 ## Description
 - Ecommerce website build with Node.js and React.
 - Clone the repository.
-- Navigate to backend folder, type `npm install` to install dependencies, then type `npm run dev` to start the server app.
+- Navigate to backend folder, type `npm install` to install dependencies, then type `npm run dev` to start the server.
 - Navigate to frontend/app folder, type `npm install` to install dependencies, then type `npm start` to start the shop App.
 - Navigate to admin/app folder, type `npm install` to install dependencies, then type `npm start` to start the admin App.
 
 ## Feature
 - Users able to browse page, add products to cart and place an order with stripe test checkout.
-- Admin able able to modify all products, users, and view related informations.
+- Admin able to modify/view all products, users, transactions, and view related informations.
 
 `Shop Page`
 ![Capture1](https://user-images.githubusercontent.com/72901256/157584255-3ddc854c-648f-48fd-ab50-29ef9e941e3e.PNG)
@@ -34,8 +34,8 @@
 - Username: test2
 - Password: test2
 
-# Stripe test card number
-- Card: 4242424242424242
+## Stripe test card number
+- Card: 4242 4242 4242 4242
 - CVC: Any 3 digits
 - DATE: Any future date
 
