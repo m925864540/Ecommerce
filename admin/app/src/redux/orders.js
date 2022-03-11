@@ -39,6 +39,12 @@ const orderSlice = createSlice({
       state.fetching = false;
       state.fail = true;
     },
+    clearOrderState: (state) =>{
+        state.orders= []; 
+        state.etching= false;
+        state.success= false;
+        state.fail= false;
+    },
   },
 });
 
@@ -76,6 +82,7 @@ export const {
     deleteOrder,
     deleteOrderFail,
     deleteOrderSuccess,
+    clearOrderState,
   } = orderSlice.actions;
   export default orderSlice.reducer;
   

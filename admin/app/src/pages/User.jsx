@@ -67,7 +67,7 @@ const User = () => {
     getCustomerFunc(dispatch);
   }, []);
 
-  console.log("Customers: ", customers);
+  // console.log("Customers: ", customers);
 
   const columns = [
     { field: "_id", headerName: "ID", width: 220 },

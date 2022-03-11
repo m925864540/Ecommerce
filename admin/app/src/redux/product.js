@@ -66,6 +66,12 @@ const productSlice = createSlice({
       state.fetching = false;
       state.fail = true;
     },
+    clearProductState: (state) =>{
+      state.products = [];
+      state.fetching= false;
+      state.success=false;
+      state.fail=false;
+    }
   },
 });
 
@@ -151,5 +157,6 @@ export const {
   addProduct,
   addProductSuccess,
   addProductFail,
+  clearProductState,
 } = productSlice.actions;
 export default productSlice.reducer;

@@ -66,6 +66,12 @@ const customerSlice = createSlice({
       state.fetching = false;
       state.fail = true;
     },
+    clearCustomerState: (state) =>{
+      state.customers= [];
+      state.fetching= false;
+      state.success= false;
+      state.fail= false;
+    }
   },
 });
 
@@ -146,5 +152,6 @@ export const {
   addCustomer,
   addCustomerSuccess,
   addCustomerFail,
+  clearCustomerState,
 } = customerSlice.actions;
 export default customerSlice.reducer;
