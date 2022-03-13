@@ -14,6 +14,7 @@ const getToken = () =>{
         return JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
         .currentUser.accessToken
     }
+
 }
 const token = getToken();
 // (localStorage.getItem("persist:root") ||
@@ -28,5 +29,3 @@ export const adminRequest = axios.create({
   baseURL: url,
   headers: { token: `Bearer ${token}` },
 });
-
-export{ token};

@@ -14,6 +14,7 @@ const getToken = () =>{
         return JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
         .currentUser.accessToken
     }
+    getToken();
 }
 const token = getToken();
 // (localStorage.getItem("persist:root") ||
@@ -26,7 +27,7 @@ const token = getToken();
 // console.log("Request method: ", JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user))
 export const userRequest = axios.create({
   baseURL: url,
-  headers: { token: `Bearer ${token}` },
+  headers: { token: `Bearer ${getToken()}` },
 });
 
 export{ token};

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { clearCustomerState } from "./customer";
 import { clearOrderState } from "./orders";
 import { clearProductState } from "./product";
@@ -40,10 +39,10 @@ export const loginFunc = async (dispatch, navigate, userLoginCredential) => {
   dispatch(login());
   try {
     const res = await adminRequest.post("/auth/login", userLoginCredential);
-    // console.log("[Admin] res data is: ", res.data)
     if (res.data.isAdmin) {
       dispatch(loginSuccess(res.data));
       navigate("/home");
+      window.location.reload();
     } else {
       alert("Admin Credential False.");
       dispatch(loginFail());

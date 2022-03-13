@@ -53,7 +53,7 @@ export const getOrderFunc = async (dispatch) => {
     dispatch(getOrder());
     try {
       const res = await adminRequest.get("/order/find");
-      console.log(res.data);
+      // console.log(res.data)
       dispatch(getOrderSuccess(res.data));
     } catch (err) {
       dispatch(getOrderFail());

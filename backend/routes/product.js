@@ -52,7 +52,6 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 
 /**
  * Get an product by ID
- * verifyTokenAndAdmin removed to access from frontend, might need to add later.
  */
 router.get("/:id", async (req, res) => {
   try {
