@@ -121,9 +121,9 @@ const User = () => {
   ];
 
   const handleRemove = (_id) => {
-    customers.isAdmin === true
+    customers.isAdmin === true || customers.user_ID === '6225bec811cc0ffd3278e6d5' //user: test2
       ? deleteCustomerFunc(dispatch, _id)
-      : alert("Admin Delete Fail.");
+      : alert("Delete Fail On This User.");
   };
 
   return (
